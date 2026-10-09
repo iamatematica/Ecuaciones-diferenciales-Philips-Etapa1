@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecuaciones diferenciales · Etapa 1 · laboratoriobest-IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+:root{
+  --lab-terra:#b57d4c; --lab-blue:#415a8e; --lab-dark:#20201c; --lab-cream:#faf8f1; --lab-gray:#6579a1;
+  --navy:#0f2244;
+  --paper:#FBF8F1; --ink:#20201c; --muted:#5f5b53;
+  --blue:#2B5A93; --amber:#C77A40; --green:#45785A; --rust:#BC5235; --violet:#6E4EAA;
+  --blue-bg:#eef3f9; --amber-bg:#fbf3e8; --green-bg:#edf4ef; --rust-bg:#faeeea; --violet-bg:#f2eef8;
+  --line:#e2ddd2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:'Hanken Grotesk',sans-serif; font-size:15px; line-height:1.6; color:var(--ink);
+  background-color:var(--paper);
+  background-image:linear-gradient(rgba(43,90,147,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(43,90,147,.07) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400;line-height:1.2;margin:0 0 .5em}
+h2{font-size:2rem;color:var(--navy)}
+h3{font-size:1.25rem;color:var(--navy);margin-top:1.4em}
+p{margin:.6em 0}
+.katex{font-size:1.08em}
+.katex-display{margin:.7em 0 !important;overflow-x:auto;overflow-y:hidden !important;padding:2px 0;position:relative}
+.katex-display>.katex{white-space:normal}
+
+/* ===== chrome ===== */
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,#1a3a6e 100%);color:#e0f2fe;padding:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-inspt{font-size:12px;color:#7dd3fc;letter-spacing:.1em;font-weight:700}
+.brand-title{font-family:'Fraunces',serif;font-size:18px;color:#fff;font-weight:700}
+.brand-sub{font-size:12px;color:#bfdbfe}
+.lab-logo{background:var(--lab-cream);padding:8px 18px 7px;border-radius:12px;text-align:left;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.lab-name{display:flex;align-items:center;font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;line-height:1.2}
+.lab-name .bullet{width:8px;height:8px;border-radius:50%;background:var(--lab-terra);flex-shrink:0;margin-right:7px}
+.lab-name .lab{color:var(--lab-dark)} .lab-name .best{color:var(--lab-terra)} .lab-name .ia{color:var(--lab-blue)}
+.lab-sub{color:var(--lab-gray);font-size:11px;font-weight:500;margin-top:1px;padding-left:15px;font-family:'Hanken Grotesk',sans-serif}
+.ej-lab{font-family:'Fraunces',Georgia,serif;font-size:12.5px;font-weight:700;display:flex;align-items:center}
+.ej-lab .bullet{width:6px;height:6px;border-radius:50%;background:var(--lab-terra);margin-right:5px}
+.ej-lab .lab{color:var(--lab-dark);opacity:.75} .ej-lab .best{color:var(--lab-terra)} .ej-lab .ia{color:var(--lab-blue)}
+.site-footer{background:var(--navy);color:#cbd5e1;padding:30px 0 24px;margin-top:40px}
+.footer-inner{max-width:1080px;margin:0 auto;padding:0 20px;text-align:center}
+.footer-quote{font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem;color:#e0f2fe;margin-bottom:16px}
+.footer-lab{display:inline-block;background:var(--lab-cream);padding:10px 22px 9px;border-radius:12px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.footer-lab .lab-name{font-size:17px}
+.footer-lab .lab-sub{font-size:12px}
+
+/* ===== matemática de respaldo (sin KaTeX) ===== */
+.mfall{font-family:'STIX Two Text','Times New Roman',serif;font-size:1.06em;white-space:nowrap}
+.mfall.disp{display:block;text-align:center;margin:.7em 0;overflow-x:auto;overflow-y:hidden !important;white-space:normal}
+.mfall .v{font-style:italic}
+.mfall .frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .15em;line-height:1.15}
+.mfall .frac>span{padding:0 .2em}
+.mfall .frac>span:first-child{border-bottom:1px solid currentColor}
+.mfall .big{font-size:1.5em;line-height:1;vertical-align:middle;margin:0 .1em}
+.mfall .lim{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05}
+.mfall .lim>small{font-size:.65em}
+.mfall sup,.mfall sub{font-size:.7em;line-height:0}
+#testPanel{position:fixed;left:10px;bottom:10px;z-index:99;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font:12px 'Fira Code',monospace;max-height:50vh;max-width:420px;overflow:auto;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#testPanel .ok{color:var(--green)} #testPanel .fail{color:var(--rust);font-weight:700}
+
+/* ===== stepper ===== */
+.stepper{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.stepper-inner{max-width:1080px;margin:0 auto;padding:8px 12px 0}
+.pills{display:flex;gap:3px;align-items:center;justify-content:flex-start;flex-wrap:nowrap;overflow:hidden;padding-bottom:6px;position:relative}
+.pill{flex:0 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;background:none;border:1px solid transparent;border-radius:999px;padding:4px 6px 4px 4px;font:500 .62rem 'Fira Code',monospace;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);cursor:pointer;white-space:nowrap}
+.pill .n{display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:.62rem;color:var(--navy)}
+.pill .lbl{overflow:hidden;text-overflow:ellipsis}
+.pill .lbl-c{display:none;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:1000px){.pill .lbl{display:none} .pill .lbl-c{display:inline}}
+@media (max-width:760px){.pill .lbl-c{display:none} .pill{padding:4px 2px;gap:0}}
+.pill.done .n{background:var(--green);border-color:var(--green);color:#fff}
+.pill.active{color:var(--blue);border-color:var(--blue);background:#fff}
+.pill.active .n{background:var(--blue);border-color:var(--blue);color:#fff}
+.pill:hover{color:var(--navy)}
+.progress{height:4px;background:#ece7db}
+.progress>div{height:100%;background:var(--amber);width:0;transition:width .3s}
+.stepper-meta{display:flex;justify-content:space-between;align-items:center;font:400 .68rem 'Fira Code',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:4px 0 2px}
+.stepper-meta button{background:none;border:0;color:var(--muted);font:inherit;cursor:pointer;text-decoration:underline;padding:0}
+
+/* ===== layout ===== */
+main{max-width:860px;margin:0 auto;padding:28px 20px 40px}
+main>section{scroll-margin-top:96px}
+.sec-hidden{position:absolute;left:-99999px;top:0;width:820px;visibility:hidden}
+.sec-visible{position:static;visibility:visible}
+.badge{display:inline-block;font:500 .7rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.lead{font-size:1.05rem;color:var(--muted);max-width:640px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:18px 0;box-shadow:0 1px 3px rgba(20,30,50,.05)}
+.def{background:var(--blue-bg);border-left:5px solid var(--blue);border-radius:0 12px 12px 0;padding:14px 20px;margin:18px 0}
+.def .tt,.nota .tt,.warn .tt,.ok-box .tt{font:500 .7rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.def .tt{color:var(--blue)}
+.ejemplo{border:1px solid #e8cfa8;border-radius:12px;margin:18px 0;overflow:hidden;background:#fff}
+.ejemplo .head{background:var(--amber);color:#fff;padding:8px 18px;font:600 .85rem 'Hanken Grotesk',sans-serif;letter-spacing:.02em}
+.ejemplo .body{padding:12px 18px 16px}
+.nota{background:var(--amber-bg);border-left:5px solid var(--amber);border-radius:0 12px 12px 0;padding:12px 18px;margin:16px 0}
+.nota .tt{color:var(--amber)}
+.warn{background:var(--rust-bg);border-left:5px solid var(--rust);border-radius:0 12px 12px 0;padding:12px 18px;margin:16px 0}
+.warn .tt{color:var(--rust)}
+.ok-box{background:var(--green-bg);border-left:5px solid var(--green);border-radius:0 12px 12px 0;padding:12px 18px;margin:16px 0}
+.ok-box .tt{color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr} h2{font-size:1.6rem} main{padding:20px 16px 32px}}
+table.tabla{width:100%;border-collapse:collapse;font-size:.95rem;margin:10px 0}
+table.tabla th,table.tabla td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.tabla th{font:500 .7rem 'Fira Code',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tabla-wrap{overflow-x:auto;overflow-y:hidden !important;position:relative}
+ul.lista{padding-left:1.2em} ul.lista li{margin:.35em 0}
+ol.lista{padding-left:1.3em} ol.lista li{margin:.35em 0}
+
+/* ===== pasos desplegables ===== */
+.paso{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff;scroll-margin-top:100px}
+.paso>button{width:100%;text-align:left;background:none;border:0;padding:10px 14px;font:600 .95rem 'Hanken Grotesk',sans-serif;color:var(--navy);cursor:pointer;display:flex;gap:10px;align-items:center}
+.paso>button .num{font:500 .7rem 'Fira Code',monospace;color:#fff;background:var(--blue);border-radius:6px;padding:2px 7px;letter-spacing:.05em}
+.paso>button .chev{margin-left:auto;transition:transform .2s;color:var(--muted)}
+.paso.open>button .chev{transform:rotate(90deg)}
+.paso .cont{display:none;padding:2px 16px 14px;border-top:1px dashed var(--line)}
+.paso.open .cont{display:block}
+
+/* ===== actividades / preguntas ===== */
+.act{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:18px 0;border-top:4px solid var(--green)}
+.act .tt{font:500 .7rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.act .tt .cat{color:#fff;background:var(--violet);border-radius:6px;padding:1px 7px;letter-spacing:.05em}
+.act .tt .cat.proc{background:var(--blue)} .act .tt .cat.anal{background:var(--rust)} .act .tt .cat.interp{background:var(--amber)}
+.act .q{font-weight:600;margin:.4em 0}
+.opts{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;text-align:left;font:400 .95rem 'Hanken Grotesk',sans-serif;color:var(--ink);width:100%}
+.opt:hover{border-color:var(--blue)}
+.opt .k{font:500 .7rem 'Fira Code',monospace;color:var(--muted);padding-top:3px;flex-shrink:0}
+.opt.right{border-color:var(--green);background:var(--green-bg)}
+.opt.wrong{border-color:var(--rust);background:var(--rust-bg)}
+.opt.dim{opacity:.55}
+.opt:disabled{cursor:default}
+.fb{margin-top:8px;padding:10px 14px;border-radius:10px;font-size:.95rem;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--green-bg);border:1px solid #bcd4c4;color:#274a35}
+.fb.bad{background:var(--rust-bg);border:1px solid #e6c2b6;color:#6e2c1c}
+.fb.info{background:var(--blue-bg);border:1px solid #c8d6e8;color:#1e3f66}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:8px 16px;font:600 .9rem 'Hanken Grotesk',sans-serif;cursor:pointer}
+.btn:hover{background:#234a7a}
+.btn.sec{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.btn.sec:hover{background:var(--blue-bg)}
+.btn.small{padding:5px 11px;font-size:.8rem}
+a.btn{display:inline-block;text-decoration:none}
+.fin-etapa{display:flex;gap:10px;flex-wrap:wrap}
+.btn.amber{background:var(--amber)} .btn.amber:hover{background:#a86530}
+.btn.ghost{background:none;color:var(--muted);border:1px solid var(--line)}
+.btn.ghost:hover{background:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:disabled:hover{background:var(--blue)} .btn.ghost:disabled:hover{background:none} .btn.sec:disabled:hover{background:#fff}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font:500 .8rem 'Hanken Grotesk',sans-serif;cursor:pointer;color:var(--navy)}
+.chip:disabled{opacity:.4;cursor:default}
+.chip.on{background:var(--violet);border-color:var(--violet);color:#fff}
+.chip.star{border-color:var(--amber)}
+.score{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--navy)}
+.aviso-linea{font-size:.9rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:8px 12px;margin:10px 0;background:#fff}
+
+/* ===== laboratorio ===== */
+.lab-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:18px 0;border-top:4px solid var(--violet)}
+.lab-ctrl{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
+.lab-ctrl label{font:500 .75rem 'Fira Code',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lab-ctrl select{font:400 .95rem 'Hanken Grotesk',sans-serif;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;max-width:100%}
+canvas{width:100%;height:auto;display:block;border-radius:10px;background:#fff;border:1px solid var(--line);cursor:crosshair}
+.lab-status{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:.95rem;background:var(--violet-bg);border:1px solid #d9cdea;color:#3b2a5e}
+.lab-status b{color:var(--violet)}
+.lab-step{font:500 .7rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--violet);margin:14px 0 4px}
+textarea{width:100%;font:400 .95rem 'Hanken Grotesk',sans-serif;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;resize:none;overflow:hidden;min-height:44px;line-height:1.5}
+textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+
+/* ===== práctica ===== */
+.ej{background:#fff;border:1px solid var(--line);border-radius:14px;margin:16px 0;overflow:hidden;scroll-margin-top:100px}
+.ej .ej-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--line);background:#fcfbf8;flex-wrap:wrap}
+.ej .ej-num{font:500 .75rem 'Fira Code',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.ej .ej-num .lvl{margin-left:10px;color:#fff;background:var(--green);border-radius:6px;padding:2px 7px;letter-spacing:.05em}
+.ej .ej-num .lvl.l2{background:var(--blue)} .ej .ej-num .lvl.l3{background:var(--violet)} .ej .ej-num .lvl.l4{background:var(--amber)} .ej .ej-num .lvl.l5{background:var(--rust)}
+.ej .ej-body{padding:12px 18px 16px}
+.ej .titulo{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--navy);margin:2px 0 6px}
+.ej .acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+.ej .estado{font:500 .75rem 'Fira Code',monospace;color:var(--muted);margin-left:auto}
+.pista{background:var(--amber-bg);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:8px 14px;margin:8px 0;font-size:.95rem}
+.pista .tt{font:500 .65rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--amber)}
+.solucion{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.progreso{font:500 .8rem 'Fira Code',monospace;color:var(--muted);margin:8px 0}
+.progreso b{color:var(--green)}
+
+/* ===== errores ===== */
+table.errores td:first-child{font-weight:600;color:var(--rust)}
+
+/* ===== portada / navegación ===== */
+.hero{padding:26px 0 8px}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:700;color:var(--navy);line-height:1}
+.hero .sub{font:500 .75rem 'Fira Code',monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.ruta{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin:18px 0}
+.ruta button{text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;font-family:'Hanken Grotesk',sans-serif;color:var(--ink)}
+.ruta button:hover{border-color:var(--blue);box-shadow:0 2px 8px rgba(43,90,147,.12)}
+.ruta .n{font:500 .7rem 'Fira Code',monospace;color:var(--blue);letter-spacing:.12em}
+.ruta .t{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--navy);margin:2px 0}
+.ruta .d{font-size:.85rem;color:var(--muted)}
+.navsc{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
+.sr{position:absolute;left:-9999px}
+
+/* ===== panel flotante de fórmulas ===== */
+.fab{position:fixed;right:16px;bottom:16px;z-index:30;background:var(--navy);color:#fff;border:0;border-radius:999px;padding:10px 16px;font:600 .85rem 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px}
+.fab kbd{font:500 .7rem 'Fira Code',monospace;background:rgba(255,255,255,.18);border-radius:5px;padding:1px 6px}
+.modal-bg{position:fixed;inset:0;background:rgba(15,34,68,.55);z-index:40;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:18px 22px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.modal h3{margin-top:0}
+.modal .cerrar{float:right;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--muted)}
+.modal table.tabla td{padding:6px 10px}
+.modal .nota .renglon{margin:.35em 0}
+
+
+/* ===== tramos (en clase / en casa) ===== */
+.grp{flex:0 0 auto;font:500 .58rem 'Fira Code',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);background:#ece7db;border-radius:6px;padding:3px 6px;white-space:nowrap}
+.grp-sep{flex:1 1 10px;min-width:6px;align-self:center;border-bottom:1px dashed #cfc8b8}
+.tramo{display:flex;align-items:center;gap:10px;margin:22px 0 0;font:500 .7rem 'Fira Code',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--navy)}
+.tramo::after{content:"";flex:1;border-bottom:1px dashed #cfc8b8}
+.tramo+.ruta{margin-top:10px}
+/* ===== ejemplo plegado ===== */
+.plegado{border:1px dashed #e8cfa8;border-radius:12px;margin:18px 0;background:#fffdf8}
+.plegado>button{width:100%;text-align:left;background:none;border:0;padding:10px 16px;font:600 .92rem 'Hanken Grotesk',sans-serif;color:var(--navy);cursor:pointer;display:flex;gap:10px;align-items:center}
+.plegado>button .chev{margin-left:auto;transition:transform .2s;color:var(--muted)}
+.plegado.open>button .chev{transform:rotate(90deg)}
+.plegado>.cont-p{display:none;padding:0 12px 4px}
+.plegado.open>.cont-p{display:block}
+.plegado .ejemplo{margin:6px 0 12px}
+.warn ul{margin:.2em 0 0;padding-left:1.2em} .warn li{margin:.35em 0}
+
+/* ===== reporte ===== */
+.rep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:14px 0}
+.rep-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.rep-box .k{font:500 .68rem 'Fira Code',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rep-box .v{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--navy)}
+.rep-box .d{font-size:.85rem;color:var(--muted)}
+@media print{.stepper,.fab,.navsc,.site-footer,.topbar{display:none} .sec-hidden{position:static;visibility:visible;width:auto}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div>
+        <div class="brand-inspt">Escuela Philips</div>
+        <div class="brand-title">Ecuaciones diferenciales · Etapa 1</div>
+        <div class="brand-sub">Matemática · 5.º año</div>
+      </div>
+    </div>
+    <div class="lab-logo">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" id="stepper">
+  <div class="stepper-inner">
+    <div class="pills" id="pills"></div>
+    <div class="progress"><div id="progBar"></div></div>
+    <div class="stepper-meta"><span id="progTxt">Pantalla 0 · Inicio · en clase</span><button type="button" id="btnReset">Reiniciar recorrido</button></div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= 0 INICIO ================= -->
+<section id="s0" class="sec-visible">
+  <div class="hero">
+    <div class="sub">Unidad 5 · Ecuaciones diferenciales · Etapa 1 de 3</div>
+    <h1>Qué es una ecuación diferencial</h1>
+    <p class="lead">Hasta ahora la incógnita de una ecuación era un número. Acá la incógnita es una <b>función</b>, y lo que la ecuación dice de ella es cómo cambia: su derivada. La pregunta de toda la unidad es <b>qué funciones cumplen una condición sobre su derivada</b>.</p>
+  </div>
+
+  <div class="def">
+    <div class="tt">Al terminar esta etapa vas a poder</div>
+    <ul class="lista">
+      <li>Reconocer una ecuación diferencial y decir su <b>orden</b> y su <b>grado</b>.</li>
+      <li>Verificar si una función dada es solución, derivando y reemplazando.</li>
+      <li>Distinguir <b>solución general</b>, <b>particular</b> y <b>singular</b>.</li>
+      <li>Resolver ecuaciones de <b>variables separables</b>, con y sin condición inicial.</li>
+      <li>Leer una ley física (desintegración, enfriamiento, descarga de un capacitor) como una ecuación diferencial.</li>
+    </ul>
+  </div>
+
+  <div class="tramo">En clase</div>
+  <div class="ruta">
+    <button data-go="1"><div class="n">1</div><div class="t">Antes de empezar</div><div class="d">Cuatro preguntas para llegar a la teoría con la pregunta ya hecha.</div></button>
+    <button data-go="2"><div class="n">2</div><div class="t">Teoría</div><div class="d">Qué es una ED, orden y grado, tipos de solución, variables separables y valor inicial.</div></button>
+    <button data-go="3"><div class="n">3</div><div class="t">Laboratorio</div><div class="d">Campo de direcciones: hacé clic y mirá nacer la solución.</div></button>
+  </div>
+  <div class="tramo">En casa</div>
+  <div class="ruta">
+    <button data-go="4"><div class="n">4</div><div class="t">Práctica</div><div class="d">Quince ejercicios en tres niveles, con pistas. Para entregar: al menos tres de cada nivel.</div></button>
+    <button data-go="5"><div class="n">5</div><div class="t">Cierre y reporte</div><div class="d">Cuatro preguntas sobre tu recorrido y el PDF que se entrega.</div></button>
+  </div>
+
+  <div class="nota">
+    <div class="tt">Cómo se recorre</div>
+    Las pantallas 1 a 3 se hacen en clase; la práctica y el cierre, en casa. Ninguna pantalla se bloquea: podés saltar y volver. En la teoría los ejemplos se abren paso a paso, y cada bloque termina con una pregunta: respondela antes de pasar al siguiente. En la práctica, la explicación de cada ejercicio se abre después del primer intento; las pistas, cuando las pidas. Tu avance queda guardado en este navegador: hacé la práctica y el cierre en un mismo dispositivo, porque el PDF sale de ahí. Con la tecla <b>T</b> se abre en cualquier momento la tabla de derivadas e integrales.
+  </div>
+  <div class="navsc"><span></span><button class="btn" data-go="1">Empezar · Antes de empezar →</button></div>
+</section>
+
+<!-- ================= 1 ANTES DE EMPEZAR ================= -->
+<section id="s1" class="sec-hidden">
+  <div class="badge">Pantalla 1</div>
+  <h2>Antes de empezar</h2>
+  <p class="lead">Cuatro preguntas para las que todavía no leíste la teoría. No importa acertar: importa llegar a la teoría con la pregunta ya hecha.</p>
+  <div id="activList"></div>
+  <div class="navsc"><button class="btn ghost" data-go="0">← Inicio</button><button class="btn" data-go="2">Seguir · Teoría →</button></div>
+</section>
+
+<!-- ================= 2 TEORÍA ================= -->
+<section id="s2" class="sec-hidden">
+  <div class="badge">Pantalla 2</div>
+  <h2>Teoría</h2>
+  <p class="lead">Cuatro bloques cortos. Los ejemplos se abren paso a paso: antes de abrir cada paso, tratá de anticipar qué viene. Cada bloque termina con una pregunta: respondela antes de pasar al siguiente.</p>
+
+  <h3>1 · Qué es una ecuación diferencial</h3>
+  <div class="def">
+    <div class="tt">Definición</div>
+    Una <b>ecuación diferencial</b> es una ecuación en la que la incógnita es una función \(y = y(x)\) y en la que aparece al menos una de sus derivadas. <b>Resolverla</b> es encontrar todas las funciones que la cumplen.
+    \[y' = 2x \qquad\quad y' = 3y \qquad\quad y'' + 4y = 0 \qquad\quad (y')^2 = x\,y\]
+  </div>
+  <div class="def">
+    <div class="tt">Orden y grado</div>
+    <ul class="lista">
+      <li>El <b>orden</b> es el de la derivada de mayor orden que aparece.</li>
+      <li>El <b>grado</b> es el exponente al que está elevada esa derivada de mayor orden, cuando la ecuación se puede escribir como un polinomio en las derivadas.</li>
+    </ul>
+    <div class="tabla-wrap"><table class="tabla">
+      <tr><th>Ecuación</th><th>Derivada más alta</th><th>Orden</th><th>Grado</th></tr>
+      <tr><td>\(y' = 2x\)</td><td>\(y'\)</td><td>1</td><td>1</td></tr>
+      <tr><td>\(y'' + 4y = 0\)</td><td>\(y''\)</td><td>2</td><td>1</td></tr>
+      <tr><td>\((y')^2 = x\,y\)</td><td>\(y'\), al cuadrado</td><td>1</td><td>2</td></tr>
+      <tr><td>\((y'')^3 + 2y' - y = x\)</td><td>\(y''\), al cubo</td><td>2</td><td>3</td></tr>
+    </table></div>
+    El orden mira <i>cuántas veces</i> se derivó; el grado mira <i>a qué potencia</i> está esa derivada. No se confunden si primero señalás la derivada más alta y recién después su exponente.
+  </div>
+  <div class="nota">
+    <div class="tt">Cómo verificar si una función es solución</div>
+    No se reemplaza un punto: se <b>deriva la función</b> y se reemplazan \(y\) e \(y'\) en la ecuación. Si los dos lados quedan iguales <b>para todo \(x\)</b>, es solución.
+  </div>
+  <div class="ejemplo">
+    <div class="head">Ejemplo · ¿es \(y = C\,e^{2x}\) solución de \(y' = 2y\)?</div>
+    <div class="body">
+      <div class="paso"><button type="button"><span class="num">1</span> Derivar la función propuesta <span class="chev">▸</span></button>
+        <div class="cont">\(y = C\,e^{2x}\), así que \(y' = 2C\,e^{2x}\) (la constante \(C\) se queda, el exponente baja multiplicando).</div></div>
+      <div class="paso"><button type="button"><span class="num">2</span> Reemplazar en los dos lados <span class="chev">▸</span></button>
+        <div class="cont">Lado izquierdo: \(y' = 2C\,e^{2x}\). Lado derecho: \(2y = 2\cdot C\,e^{2x} = 2C\,e^{2x}\).</div></div>
+      <div class="paso"><button type="button"><span class="num">3</span> Comparar <span class="chev">▸</span></button>
+        <div class="cont">Son iguales para cualquier \(x\) y cualquier \(C\): <b>sí es solución</b>, y lo es para cada valor de \(C\). En cambio \(y = x^2\) no lo es: \(y' = 2x\) pero \(2y = 2x^2\), y \(2x \ne 2x^2\) salvo en dos puntos.</div></div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="tt">Dos trampas</div>
+    <ul>
+      <li><b>Confundir orden con grado.</b> Si dijiste «orden 3» para \((y')^3\) o «grado 2» para \(y''\), tomaste el número más grande que se ve. Primero señalá la derivada más alta (eso da el orden); después mirá a qué potencia está (eso da el grado).</li>
+      <li><b>Verificar reemplazando un punto.</b> Si no derivaste nada y solo pusiste un valor de \(x\), no verificaste. Se deriva la función, se reemplazan \(y\) e \(y'\), y los dos lados tienen que coincidir <i>para todo \(x\)</i>.</li>
+    </ul>
+  </div>
+  <div data-teo="t1"></div>
+
+  <h3>2 · Solución general, particular y singular</h3>
+  <p>Tomemos la más simple: \(y' = 2x\). Buscamos una función cuya derivada sea \(2x\); integrando, \(y = x^2 + C\). No es <i>una</i> solución: es una <b>familia</b>, una curva por cada valor de \(C\).</p>
+  <div class="def">
+    <div class="tt">Tres tipos de solución</div>
+    <ul class="lista">
+      <li><b>Solución general:</b> la familia completa, con la constante libre. Para una ecuación de orden 1 tiene una constante; para una de orden 2, dos. Ejemplo: \(y = x^2 + C\).</li>
+      <li><b>Solución particular:</b> una curva de la familia, la que sale al fijar \(C\) con una <b>condición inicial</b>. Si se pide \(y(1) = 3\): \(1 + C = 3\), \(C = 2\), y la particular es \(y = x^2 + 2\).</li>
+      <li><b>Solución singular:</b> una función que cumple la ecuación pero <b>no sale de la familia</b> con ningún valor de \(C\). No toda ecuación la tiene.</li>
+    </ul>
+  </div>
+  <div class="ejemplo">
+    <div class="head">Ejemplo · una ecuación con solución singular</div>
+    <div class="body">
+      <p>Para \(y' = 2\sqrt{y}\), la solución general es \(y = (x + C)^2\) (con \(x \ge -C\)). Pero fijate en \(y = 0\):</p>
+      <div class="paso"><button type="button"><span class="num">1</span> ¿Cumple la ecuación? <span class="chev">▸</span></button>
+        <div class="cont">Si \(y = 0\), entonces \(y' = 0\) y \(2\sqrt{y} = 2\sqrt{0} = 0\). Los dos lados valen \(0\): <b>sí</b>, es solución.</div></div>
+      <div class="paso"><button type="button"><span class="num">2</span> ¿Sale de la familia? <span class="chev">▸</span></button>
+        <div class="cont">\((x + C)^2 = 0\) solo en \(x = -C\), en un punto: no hay ningún \(C\) que dé \(y = 0\) <i>para todo \(x\)</i>. Entonces \(y = 0\) es una <b>solución singular</b>. Geométricamente, es la recta a la que todas las parábolas de la familia son tangentes en su vértice. En el laboratorio la vas a ver dibujada.</div></div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="tt">Cuidado</div>
+    <b>Olvidar la constante al integrar.</b> Si tu «solución general» no tiene ninguna letra libre, es una sola función y no una familia. Toda integral indefinida lleva \(+\,C\): con una condición inicial, \(C\) se calcula después; sin ella, se queda.
+  </div>
+  <div data-teo="t2"></div>
+
+  <h3>3 · Variables separables</h3>
+  <div class="def">
+    <div class="tt">Definición</div>
+    Una ecuación de primer orden es de <b>variables separables</b> cuando se puede escribir como
+    \[\dfrac{dy}{dx} = f(x)\cdot g(y)\]
+    un factor que depende solo de \(x\) por otro que depende solo de \(y\). Ejemplos: \(y' = 2xy\) (con \(f(x) = 2x\), \(g(y) = y\)), \(y' = \dfrac{x}{y}\), \(y' = 3x^2 e^{-y}\). No lo es \(y' = x + y\): una suma no se factoriza así.
+  </div>
+  <div class="def">
+    <div class="tt">El método</div>
+    <ol class="lista">
+      <li>Escribir \(y'\) como \(\dfrac{dy}{dx}\).</li>
+      <li>Pasar todo lo que tiene \(y\) al lado de \(dy\) y todo lo que tiene \(x\) al lado de \(dx\): \(\dfrac{dy}{g(y)} = f(x)\,dx\).</li>
+      <li>Integrar cada lado respecto de su variable.</li>
+      <li>Escribir <b>una sola</b> constante \(C\) (las dos constantes se juntan en una).</li>
+      <li>Despejar \(y\) si se puede. Si no, la solución queda en forma implícita.</li>
+    </ol>
+  </div>
+  <div class="ejemplo">
+    <div class="head">Ejemplo · resolver \(y' = 2xy\)</div>
+    <div class="body">
+      <div class="paso"><button type="button"><span class="num">1</span> Separar <span class="chev">▸</span></button>
+        <div class="cont">\[\dfrac{dy}{dx} = 2x\,y \quad\Rightarrow\quad \dfrac{dy}{y} = 2x\,dx\] Dividimos por \(y\) (suponemos \(y \ne 0\); el caso \(y = 0\) lo recuperamos al final).</div></div>
+      <div class="paso"><button type="button"><span class="num">2</span> Integrar cada lado <span class="chev">▸</span></button>
+        <div class="cont">\[\int \dfrac{dy}{y} = \int 2x\,dx \quad\Rightarrow\quad \ln|y| = x^2 + C\]</div></div>
+      <div class="paso"><button type="button"><span class="num">3</span> Despejar \(y\) y absorber la constante <span class="chev">▸</span></button>
+        <div class="cont">\[|y| = e^{x^2 + C} = e^{C}\cdot e^{x^2} \quad\Rightarrow\quad y = K\,e^{x^2}\] donde \(K = \pm e^{C}\) es una constante cualquiera distinta de cero. Y con \(K = 0\) queda \(y = 0\), que también cumple la ecuación. <b>Solución general: \(y = K\,e^{x^2}\)</b>, con \(K\) cualquier real.</div></div>
+    </div>
+  </div>
+  <div class="plegado"><button type="button"><span>¿Y si no se puede despejar \(y\)? Otro ejemplo: \(y' = \dfrac{x}{y}\)</span> <span class="chev">▸</span></button><div class="cont-p">
+  <div class="ejemplo">
+    <div class="head">Ejemplo · resolver \(y' = \dfrac{x}{y}\)</div>
+    <div class="body">
+      <div class="paso"><button type="button"><span class="num">1</span> Separar <span class="chev">▸</span></button>
+        <div class="cont">\[\dfrac{dy}{dx} = \dfrac{x}{y} \quad\Rightarrow\quad y\,dy = x\,dx\]</div></div>
+      <div class="paso"><button type="button"><span class="num">2</span> Integrar <span class="chev">▸</span></button>
+        <div class="cont">\[\int y\,dy = \int x\,dx \quad\Rightarrow\quad \dfrac{y^2}{2} = \dfrac{x^2}{2} + C\]</div></div>
+      <div class="paso"><button type="button"><span class="num">3</span> Simplificar <span class="chev">▸</span></button>
+        <div class="cont">Multiplicando por \(2\): \(y^2 = x^2 + K\) (con \(K = 2C\)). Es la solución general en <b>forma implícita</b>: cada \(K\) es una hipérbola (o, con \(K = 0\), las rectas \(y = \pm x\)). Despejar \(y = \pm\sqrt{x^2 + K}\) es posible, pero la forma implícita ya es una respuesta completa.</div></div>
+    </div>
+  </div>
+  </div></div>
+  <div class="warn">
+    <div class="tt">Dos trampas</div>
+    <ul>
+      <li><b>Dejar \(e^{x^2 + C}\) sin absorber la constante.</b> Con la constante en el exponente no vas a poder despejarla cómodamente cuando llegue una condición inicial. \(e^{x^2 + C} = e^{C}\cdot e^{x^2}\): llamá \(K = \pm e^{C}\) y escribí \(y = K\,e^{x^2}\).</li>
+      <li><b>Dividir por \(y\) y perder la solución \(y = 0\).</b> Al escribir \(\dfrac{dy}{y}\) supusiste \(y \ne 0\). Antes de cerrar, revisá si \(y = 0\) cumple la ecuación original: si la cumple, admitila (casi siempre entra con \(K = 0\)).</li>
+    </ul>
+  </div>
+  <div data-teo="t3"></div>
+
+  <h3>4 · Problemas de valor inicial</h3>
+  <div class="def">
+    <div class="tt">Orden de trabajo</div>
+    Una ecuación más una condición inicial \(y(x_0) = y_0\) es un <b>problema de valor inicial</b>. Se resuelve en dos tiempos: <b>primero</b> la solución general, con su \(C\); <b>después</b> se reemplaza la condición para hallar \(C\).
+  </div>
+  <div class="ejemplo">
+    <div class="head">Ejemplo · \(y' = -2y\) con \(y(0) = 5\)</div>
+    <div class="body">
+      <div class="paso"><button type="button"><span class="num">1</span> Solución general <span class="chev">▸</span></button>
+        <div class="cont">\[\dfrac{dy}{y} = -2\,dx \quad\Rightarrow\quad \ln|y| = -2x + C \quad\Rightarrow\quad y = K\,e^{-2x}\]</div></div>
+      <div class="paso"><button type="button"><span class="num">2</span> Usar la condición inicial <span class="chev">▸</span></button>
+        <div class="cont">\(y(0) = 5\): \(K\,e^{0} = K = 5\). <b>Solución particular: \(y = 5\,e^{-2x}\)</b>. Es la única curva de la familia que pasa por el punto \((0\,;\,5)\).</div></div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="tt">Cuidado</div>
+    <b>Reemplazar la condición inicial antes de integrar.</b> Ver \(y(0) = 5\) y poner \(x = 0\) en la ecuación diferencial no lleva a nada: si tu \(C\) apareció antes de la integral, o nunca apareció, fue esto. Primero la solución general con su \(C\); recién después la condición, para despejar \(C\).
+  </div>
+  <div data-teo="t4"></div>
+  <div class="nota">
+    <div class="tt">Por qué esto es física</div>
+    "El ritmo de cambio de una cantidad es proporcional a la cantidad" se escribe \(y' = k\,y\), y es la misma ecuación para la desintegración radiactiva (\(k < 0\)), el crecimiento de una población (\(k > 0\)) y la descarga de un capacitor. El enfriamiento de un cuerpo sigue \(T' = -k\,(T - T_{\text{amb}})\): la velocidad es proporcional a la <i>diferencia</i> con el ambiente. Todas son separables, y las vas a resolver en el nivel 3 de la práctica.
+  </div>
+  <div class="navsc"><button class="btn ghost" data-go="1">← Antes de empezar</button><button class="btn" data-go="3">Seguir · Laboratorio →</button></div>
+</section>
+
+<!-- ================= 3 LABORATORIO ================= -->
+<section id="s3" class="sec-hidden">
+  <div class="badge">Pantalla 3</div>
+  <h2>Laboratorio · el campo de direcciones</h2>
+  <p class="lead">Una ecuación \(y' = f(x\,;\,y)\) dice, en cada punto del plano, qué pendiente tiene la solución que pasa por ahí. Si dibujás esa pendiente como una flechita en muchos puntos, las soluciones aparecen solas: son las curvas que siguen las flechas.</p>
+
+  <div class="lab-panel">
+    <div class="lab-step">1 · Predecí</div>
+    <div class="act" data-act="labpred" style="margin-top:6px">
+      <div class="q">Para \(y' = y\), si hacés clic en dos puntos de la misma vertical, por ejemplo \((0\,;\,1)\) y \((0\,;\,2)\), salen dos curvas solución. ¿Se van a cruzar en algún lado?</div>
+      <div class="opts">
+        <button type="button" class="opt" data-ans="0"><span class="k">A</span><span>Sí: la que arranca más abajo crece más rápido y la alcanza.</span></button>
+        <button type="button" class="opt" data-ans="1" data-ok="1"><span class="k">B</span><span>No, nunca: por cada punto pasa una sola curva de la familia.</span></button>
+        <button type="button" class="opt" data-ans="2"><span class="k">C</span><span>Solo si \(C\) es negativo en una de las dos.</span></button>
+      </div>
+      <div class="fb" data-fb="0">Al revés: en \(y' = y\) la pendiente es \(y\), así que la curva que va más alto crece más rápido y se despega. Y no pueden cruzarse: si dos curvas \(y = C\,e^{x}\) pasaran por el mismo punto, tendrían el mismo \(C\) y serían la misma curva. Probalo en el canvas.</div>
+      <div class="fb" data-fb="1">Correcto. Las curvas de la familia \(y = C\,e^{x}\) no se cruzan: si dos pasaran por el mismo punto, tendrían el mismo \(C\) y serían la misma curva. Probalo ahora en el canvas.</div>
+      <div class="fb" data-fb="2">El signo de \(C\) decide si la curva está arriba o abajo del eje, no si se cruzan. Dos curvas de la familia \(y = C\,e^{x}\) nunca se cruzan: compartir un punto obliga a compartir el \(C\). Probalo en el canvas.</div>
+    </div>
+
+    <div class="lab-step">2 · Explorá</div>
+    <div class="lab-ctrl">
+      <label>Ecuación</label>
+      <div class="chips" id="labEd" style="margin:0"></div>
+      <button type="button" class="btn small ghost" id="labClear">Borrar curvas</button>
+    </div>
+    <div id="labFormula" style="text-align:center;min-height:2.4em"></div>
+    <canvas id="labCanvas" width="800" height="460"></canvas>
+    <div class="lab-status" id="labStatus">Hacé clic en cualquier punto del plano: ese punto es una <b>condición inicial</b>, y la curva que aparece es la solución particular que pasa por ahí.</div>
+
+    <p>Probá también \(y' = 2\sqrt{y}\), la del ejemplo de la solución singular: trazá tres o cuatro curvas y mirá dónde terminan todas.</p>
+
+    <div class="lab-step">3 · Concluí</div>
+    <div class="act" data-act="labconc" style="margin-top:6px">
+      <div class="q">Elegí \(y' = 2x\) y mirá las flechas: sobre cada recta vertical son todas iguales. ¿Por qué?</div>
+      <div class="opts">
+        <button type="button" class="opt" data-ans="0" data-ok="1"><span class="k">A</span><span>Porque la pendiente \(2x\) no depende de \(y\).</span></button>
+        <button type="button" class="opt" data-ans="1"><span class="k">B</span><span>Porque las soluciones son la misma parábola corrida.</span></button>
+        <button type="button" class="opt" data-ans="2"><span class="k">C</span><span>Porque el campo se dibuja sobre una grilla vertical.</span></button>
+      </div>
+      <div class="fb" data-fb="0">Exacto. Y por eso las soluciones \(y = x^2 + C\) son todas la misma parábola corrida hacia arriba o abajo: en \(y' = 2x\) la \(y\) no participa. Compará con \(y' = y\), donde las flechas cambian al subir.</div>
+      <div class="fb" data-fb="1">Eso es cierto (las soluciones son \(y = x^2 + C\), la misma parábola desplazada), pero es la consecuencia, no la causa. La causa está en la ecuación: \(y' = 2x\) no depende de \(y\), así que a igual \(x\), igual pendiente.</div>
+      <div class="fb" data-fb="2">La grilla es la misma para todas las ecuaciones, y en \(y' = y\) las flechas de una misma vertical son distintas. La razón está en la fórmula: \(2x\) no depende de \(y\).</div>
+    </div>
+
+    <div class="lab-step">4 · Anotá</div>
+    <p style="margin-top:4px">Escribí una observación propia: algo que hayas visto en el campo y que no esperabas, o una diferencia entre dos ecuaciones. Entra en tu reporte.</p>
+    <textarea id="labObs" rows="2" placeholder="Por ejemplo: dos curvas que parecían acercarse y…"></textarea>
+  </div>
+  <div class="nota">
+    <div class="tt">Hasta acá, la clase</div>
+    La práctica y el cierre se hacen en casa: quince ejercicios (para entregar, al menos tres de cada nivel) y el reporte en PDF que se sube a Classroom.
+  </div>
+  <div class="navsc"><button class="btn ghost" data-go="2">← Teoría</button><button class="btn" data-go="4">Seguir · Práctica →</button></div>
+</section>
+
+<!-- ================= 4 PRÁCTICA ================= -->
+<section id="s4" class="sec-hidden">
+  <div class="badge">Pantalla 4</div>
+  <h2>Práctica</h2>
+  <p class="lead">Quince ejercicios en tres niveles, para hacer en casa. Para dar la etapa por entregada resolvé al menos <b>tres de cada nivel</b>; los demás son optativos. Elegí una opción; si no es la correcta, leé por qué y volvé a intentar. Las cuatro pistas van de la estrategia a la cuenta, y la explicación completa se abre después del primer intento.</p>
+  <div class="chips" id="nivelChips"></div>
+  <div class="progreso" id="progreso"></div>
+  <div class="aviso-linea" id="pracAviso"></div>
+  <div id="listaEj"></div>
+  <div class="navsc"><button class="btn ghost" data-go="3">← Laboratorio</button><button class="btn" data-go="5">Seguir · Cierre y reporte →</button></div>
+</section>
+
+<!-- ================= 5 CIERRE Y REPORTE ================= -->
+<section id="s5" class="sec-hidden">
+  <div class="badge">Pantalla 5</div>
+  <h2>Cierre y reporte</h2>
+  <p class="lead">Cuatro preguntas concretas sobre tu propio recorrido; con dos respondidas ya se genera el resumen. Abajo está el reporte: completá tu nombre y descargalo, es lo que se entrega en Classroom.</p>
+  <div class="card">
+    <p><b>¿Qué entendiste mejor que antes de empezar?</b></p>
+    <textarea data-meta="0" rows="2" placeholder="Por ejemplo: qué significa que la solución general sea una familia…"></textarea>
+    <p style="margin-top:14px"><b>¿Qué error podés evitar de ahora en más?</b></p>
+    <textarea data-meta="1" rows="2" placeholder="Por ejemplo: reemplazar la condición inicial antes de integrar…"></textarea>
+    <p style="margin-top:14px"><b>¿Qué te falta practicar?</b></p>
+    <textarea data-meta="2" rows="2" placeholder="Por ejemplo: despejar y cuando queda ln|y|…"></textarea>
+    <p style="margin-top:14px"><b>¿Qué estrategia te sirvió?</b></p>
+    <textarea data-meta="3" rows="2" placeholder="Por ejemplo: pasar todo lo de y al lado de dy antes de integrar…"></textarea>
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button type="button" class="btn" id="btnResumen">Generar resumen</button>
+      <span id="resumenAviso" style="font-size:.85rem;color:var(--muted)"></span>
+    </div>
+    <div class="fb info" id="resumenBox"></div>
+  </div>
+  <h3>Tu reporte</h3>
+  <div class="card">
+    <div class="grid2">
+      <div><label for="repNombre" style="font:500 .7rem 'Fira Code',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Nombre y apellido</label><input type="text" id="repNombre" style="width:100%;font:400 1rem 'Hanken Grotesk',sans-serif;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff" autocomplete="off"></div>
+      <div><label for="repCurso" style="font:500 .7rem 'Fira Code',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Curso</label><input type="text" id="repCurso" placeholder="5.º ET / 5.º FT" style="width:100%;font:400 1rem 'Hanken Grotesk',sans-serif;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff" autocomplete="off"></div>
+    </div>
+    <div class="rep-grid" id="repGrid"></div>
+    <div id="repDetalle"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px">
+      <button type="button" class="btn amber" id="btnPdf">Descargar PDF</button>
+      <span id="pdfAviso" style="font-size:.85rem;color:var(--muted)"></span>
+    </div>
+  </div>
+  <div class="navsc"><button class="btn ghost" data-go="4">← Práctica</button><span class="fin-etapa"><a class="btn ghost" href="unidad5-index.html">Índice de la unidad</a><a class="btn" href="unidad5-etapa2-lineales-aplicaciones.html">Seguir · Etapa 2 →</a></span></div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-quote">"La matemática no exige genios, exige constancia."</div>
+    <div class="footer-lab">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="fab" id="fab">Fórmulas <kbd>T</kbd></button>
+
+<div class="modal-bg" id="modalForm">
+  <div class="modal" role="dialog" aria-label="Tabla de derivadas e integrales">
+    <button type="button" class="cerrar" data-cerrar>×</button>
+    <h3>Derivadas e integrales que se usan en esta etapa</h3>
+    <div class="grid2">
+      <div>
+        <div class="badge">Derivadas</div>
+        <table class="tabla">
+          <tr><td>\((x^n)' = n\,x^{n-1}\)</td></tr>
+          <tr><td>\((e^{kx})' = k\,e^{kx}\)</td></tr>
+          <tr><td>\((\ln x)' = \dfrac{1}{x}\)</td></tr>
+          <tr><td>\((\operatorname{sen} x)' = \cos x\)</td></tr>
+          <tr><td>\((\cos x)' = -\operatorname{sen} x\)</td></tr>
+          <tr><td>\((C\,f)' = C\,f'\)</td></tr>
+          <tr><td>\((f + g)' = f' + g'\)</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="badge">Integrales</div>
+        <table class="tabla">
+          <tr><td>\(\displaystyle\int x^n\,dx = \dfrac{x^{n+1}}{n+1} + C\) \((n \ne -1)\)</td></tr>
+          <tr><td>\(\displaystyle\int \dfrac{1}{x}\,dx = \ln|x| + C\)</td></tr>
+          <tr><td>\(\displaystyle\int \dfrac{1}{x + a}\,dx = \ln|x + a| + C\)</td></tr>
+          <tr><td>\(\displaystyle\int e^{kx}\,dx = \dfrac{e^{kx}}{k} + C\)</td></tr>
+          <tr><td>\(\displaystyle\int \cos x\,dx = \operatorname{sen} x + C\)</td></tr>
+          <tr><td>\(\displaystyle\int \operatorname{sen} x\,dx = -\cos x + C\)</td></tr>
+          <tr><td>\(\displaystyle\int k\,dx = k\,x + C\)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nota" style="margin-bottom:0"><div class="tt">Para despejar</div><div class="renglon">\(\ln|y| = A \Rightarrow |y| = e^{A}\)</div><div class="renglon">\(e^{A + C} = e^{C}\cdot e^{A}\)</div></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalReset">
+  <div class="modal" role="dialog" aria-label="Reiniciar">
+    <h3>¿Reiniciar el recorrido?</h3>
+    <p>Se borran tus respuestas, las pistas pedidas y los textos del cierre de esta etapa. No se puede deshacer.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="doReset" style="background:var(--rust)">Sí, reiniciar</button><button type="button" class="btn ghost" data-cerrar>Cancelar</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script>
+(function(){
+'use strict';
+const $ = (s, r) => (r||document).querySelector(s);
+const $$ = (s, r) => Array.from((r||document).querySelectorAll(s));
+const r = String.raw;
+
+/* ---------- KaTeX ---------- */
+const KOPT = {
+  delimiters: [{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],
+  throwOnError:false,
+  macros: {
+    '\\neq': '\\mathrel{\\text{\\char"2260}}',
+    '\\ne':  '\\mathrel{\\text{\\char"2260}}',
+    '\\lim': '\\mathop{\\text{lím}}\\limits'
+  }
+};
+function tex(el){ if (window.renderMathInElement) renderMathInElement(el||document.body, KOPT); }
+
+/* =====================================================================
+   CONTENIDO
+   ===================================================================== */
+const ACTIV = [
+ {id:'observa', icono:'🔍', titulo:'Observá', enun:r`La ecuación \(y' = 2x\) pide una función cuya derivada sea \(2x\). ¿Cuántas funciones la cumplen?`,
+  opts:[r`Una sola: \(y = x^2\).`, r`Infinitas: \(y = x^2 + C\), una por cada valor de \(C\).`, r`Ninguna: una ecuación con derivada no tiene solución exacta.`], correct:1,
+  fb:[r`\(y = x^2\) la cumple, pero también \(y = x^2 + 1\), \(y = x^2 - 7\)… la derivada borra la constante. Hay una solución por cada \(C\).`,
+      r`Exacto. La solución no es una función sino una familia: \(y = x^2 + C\). Ese "una por cada \(C\)" es el corazón de la etapa.`,
+      r`Sí tiene, y muchas: cualquier \(y = x^2 + C\). Que la incógnita sea una función no impide resolverla; solo cambia qué se busca.`]},
+ {id:'compara', icono:'⚖️', titulo:'Compará', enun:r`¿Cuál de estas es una ecuación diferencial?`,
+  opts:[r`\(x^2 - 5x + 6 = 0\)`, r`\(y = 3x + 1\)`, r`\(y' = x\,y\)`], correct:2,
+  fb:[r`Ahí la incógnita es un número \(x\), y no aparece ninguna derivada. Es una ecuación cuadrática común.`,
+      r`Eso es una función ya dada, no una ecuación que haya que resolver: no aparece ninguna derivada.`,
+      r`Correcto: la incógnita es la función \(y\) y aparece su derivada \(y'\). Eso es una ecuación diferencial.`]},
+ {id:'predice', icono:'🌡️', titulo:'Predecí', enun:r`Un café a \(90\,{}^{\circ}\text{C}\) se enfría en una habitación a \(20\,{}^{\circ}\text{C}\). Cuanto más caliente está, más rápido pierde temperatura. ¿Cuál ecuación describe eso? (\(T\) es la temperatura, \(t\) el tiempo, \(k > 0\).)`,
+  opts:[r`\(T' = -k\,(T - 20)\)`, r`\(T' = -k\,T\)`, r`\(T = 20 - k\,t\)`], correct:0,
+  fb:[r`Correcto: la velocidad de enfriamiento es proporcional a la <i>diferencia</i> con el ambiente, y es negativa porque \(T\) baja. Es la ley de enfriamiento de Newton, y la vas a resolver en la práctica.`,
+      r`Casi: con esa ecuación el café se enfriaría hasta \(0\,{}^{\circ}\text{C}\), y en realidad se detiene en \(20\,{}^{\circ}\text{C}\), la temperatura del ambiente. Lo que manda es la diferencia \(T - 20\).`,
+      r`Eso es una recta: el café bajaría de temperatura a ritmo constante y seguiría por debajo de \(20\,{}^{\circ}\text{C}\). La ecuación tiene que hablar de la <i>velocidad</i> \(T'\), no dar \(T\) de una vez.`]},
+ {id:'decide', icono:'🎯', titulo:'Decidí', enun:r`¿Cuál de estas funciones es solución de \(y' = y\), es decir, es igual a su propia derivada?`,
+  opts:[r`\(y = x\)`, r`\(y = \dfrac{x^2}{2}\)`, r`\(y = e^{x}\)`], correct:2,
+  fb:[r`\(y = x\) tiene derivada \(1\), y \(1 \ne x\). Para verificar una solución, derivá y comprobá que quede lo mismo.`,
+      r`La derivada de \(\dfrac{x^2}{2}\) es \(x\), no \(\dfrac{x^2}{2}\). Se parece a la idea, pero no cierra.`,
+      r`Correcto: \((e^{x})' = e^{x}\). Y también \(y = 3e^{x}\), \(y = -e^{x}\)… otra vez una familia: \(y = C\,e^{x}\).`]}
+];
+
+const NIVEL = {1:'Reconocer', 2:'Resolver', 3:'Analizar y aplicar'};
+const EJ = [
+ {id:'e1', nivel:1, tipo:'conceptual', titulo:'Orden y grado', enun:r`¿Cuál es el orden y cuál el grado de \((y')^4 + y'' = x\)?`,
+  opts:[r`Orden 4, grado 2`, r`Orden 2, grado 1`, r`Orden 2, grado 4`, r`Orden 1, grado 4`], correct:1,
+  fbOk:r`Bien: la derivada más alta es \(y''\) (orden 2) y está elevada a la primera potencia (grado 1). El exponente 4 es de \(y'\), que no manda.`,
+  fbNo:r`Primero señalá la derivada más alta: es \(y''\), así que el orden es 2. Después mirá el exponente de <i>esa</i> derivada: está elevada a la 1, así que el grado es 1. El 4 está sobre \(y'\), una derivada de orden menor, y no cuenta para el grado.`,
+  pistas:[r`Orden y grado se leen de la misma derivada: la de mayor orden.`, r`Buscá la derivada con más "primas". Cuántas primas tiene, ese es el orden.`, r`La derivada más alta es \(y''\): orden 2. ¿A qué potencia está elevada \(y''\) (no \(y'\))?`, r`Error típico: leer el 4 como orden o como grado. El 4 es el exponente de \(y'\), que no es la derivada más alta; el grado se mira en \(y''\).`],
+  sol:r`<p>La derivada de mayor orden es \(y''\), por lo tanto el <b>orden es 2</b>. Esa derivada aparece elevada a la primera potencia, por lo tanto el <b>grado es 1</b>. El término \((y')^4\) es de orden 1: su exponente no interviene ni en el orden ni en el grado.</p>`},
+ {id:'e2', nivel:1, tipo:'conceptual', titulo:'Reconocer una ecuación diferencial', enun:r`¿Cuál de las siguientes es una ecuación diferencial?`,
+  opts:[r`\(3x - 2 = 7\)`, r`\(y = x^2 + 3x\)`, r`\(y' - y = x\)`, r`\(y^2 = 2x + 1\)`], correct:2,
+  fbOk:r`Bien: la incógnita es la función \(y\) y aparece \(y'\).`,
+  fbNo:r`Una ecuación diferencial tiene que contener alguna derivada de la función incógnita. Buscá dónde aparece una \(y'\): solo en una de las opciones.`,
+  pistas:[r`La marca de una ecuación diferencial es la derivada de la incógnita.`, r`Descartá las que no tienen ninguna prima.`, r`\(y = x^2 + 3x\) y \(y^2 = 2x + 1\) relacionan \(y\) con \(x\) pero no hablan de \(y'\).`, r`Error típico: pensar que "tiene una \(y\)" alcanza. Sin derivada no es diferencial.`],
+  sol:r`<p>Solo \(y' - y = x\) contiene una derivada de la función incógnita: es una ecuación diferencial de primer orden y primer grado. \(3x - 2 = 7\) es una ecuación numérica; \(y = x^2 + 3x\) es una función dada; \(y^2 = 2x + 1\) es una curva (una relación entre \(x\) e \(y\)), sin derivadas.</p>`},
+ {id:'e3', nivel:1, tipo:'conceptual', titulo:'Separable o no', enun:r`¿Cuál de estas ecuaciones es de variables separables?`,
+  opts:[r`\(y' = x + y\)`, r`\(y' = x^2\,y\)`, r`\(y' = x^2 + y^2\)`, r`\(y' = \operatorname{sen}(x + y)\)`], correct:1,
+  fbOk:r`Bien: \(x^2\,y\) es un producto de algo que depende solo de \(x\) por algo que depende solo de \(y\).`,
+  fbNo:r`Separable significa que el lado derecho se puede escribir como \(f(x)\cdot g(y)\), un producto. Una suma \(x + y\), \(x^2 + y^2\) o un seno de la suma no se factorizan así. Buscá el producto.`,
+  pistas:[r`La pregunta es: ¿puedo escribir el lado derecho como (algo de \(x\)) por (algo de \(y\))?`, r`Probá factorizar cada opción. Una suma no se factoriza en ese formato.`, r`\(x^2\,y = f(x)\cdot g(y)\) con \(f(x) = x^2\) y \(g(y) = y\).`, r`Error típico: creer que \(x + y\) es separable "porque se pueden pasar de lado". Al separar, cada lado tiene que quedar con una sola variable, y con \(x + y\) no se puede.`],
+  sol:r`<p>\(y' = x^2\,y\) es separable: \(\dfrac{dy}{y} = x^2\,dx\). Las otras tres tienen sumas que no se pueden factorizar como \(f(x)\cdot g(y)\): en \(x + y\), \(x^2 + y^2\) y \(\operatorname{sen}(x + y)\) las variables quedan mezcladas.</p>`},
+ {id:'e4', nivel:1, tipo:'procedimental', titulo:'Verificar una solución', enun:r`¿Cuál de estas funciones es solución de \(x\,y' = 2y\)?`,
+  opts:[r`\(y = 2x\)`, r`\(y = e^{2x}\)`, r`\(y = x^2\)`, r`\(y = x^2 + 1\)`], correct:2,
+  fbOk:r`Bien: con \(y = x^2\), \(x\,y' = x\cdot 2x = 2x^2\) y \(2y = 2x^2\). Iguales para todo \(x\).`,
+  fbNo:r`Derivá la opción, reemplazá \(y\) e \(y'\) y compará los dos lados. Por ejemplo, con \(y = x^2 + 1\): \(x\,y' = 2x^2\), pero \(2y = 2x^2 + 2\): no coinciden. Y con \(y = 2x\): \(x\,y' = 2x\), pero \(2y = 4x\).`,
+  pistas:[r`Verificar es derivar y reemplazar, no probar con un número.`, r`Para cada opción calculá \(x\,y'\) y calculá \(2y\); tienen que ser iguales para todo \(x\).`, r`\((x^2)' = 2x\), así que \(x\,y' = 2x^2\). ¿Y \(2y\) cuánto da si \(y = x^2\)?`, r`Error típico: elegir \(x^2 + 1\) "porque también tiene \(x^2\)". Al reemplazar, el \(+1\) rompe la igualdad: \(2x^2 \ne 2x^2 + 2\). Acá la constante no es libre.`],
+  sol:r`<p>Con \(y = x^2\): \(y' = 2x\), \(x\,y' = 2x^2\) y \(2y = 2x^2\). Coinciden para todo \(x\): es solución. Las otras no: \(y = 2x\) da \(2x \ne 4x\); \(y = e^{2x}\) da \(2x\,e^{2x} \ne 2e^{2x}\); \(y = x^2 + 1\) da \(2x^2 \ne 2x^2 + 2\). La familia completa es \(y = K\,x^2\), y \(x^2 + 1\) no pertenece a ella.</p>`},
+ {id:'e5', nivel:1, tipo:'procedimental', titulo:'La ecuación más simple', enun:r`¿Cuál es la solución general de \(y' = 2x - 1\)?`,
+  opts:[r`\(y = x^2 - x + C\)`, r`\(y = x^2 - x\)`, r`\(y = 2x^2 - x + C\)`, r`\(y = x^2 + C\)`], correct:0,
+  fbOk:r`Bien: integrar \(2x - 1\) da \(x^2 - x\), y la solución general lleva la constante.`,
+  fbNo:r`Como \(y'\) depende solo de \(x\), la solución es la integral: \(\displaystyle\int (2x - 1)\,dx = x^2 - x + C\). Sin la \(C\) no es la general; \(2x^2\) tiene derivada \(4x\), no \(2x\); y \(x^2 + C\) se olvidó de integrar el \(-1\).`,
+  pistas:[r`Si \(y' = f(x)\), la solución es \(y = \displaystyle\int f(x)\,dx\).`, r`Integrá término a término: \(2x\) por un lado, \(-1\) por el otro.`, r`\(\displaystyle\int 2x\,dx = x^2\) y \(\displaystyle\int (-1)\,dx = -x\). ¿Qué falta al final?`, r`Error típico: escribir \(y = x^2 - x\) sin la constante. Esa es una sola solución; la general es toda la familia.`],
+  sol:r`<p>\(y = \displaystyle\int (2x - 1)\,dx = x^2 - x + C\). Comprobación: \((x^2 - x + C)' = 2x - 1\). La constante es obligatoria: sin ella tenés una solución particular, no la general.</p>`},
+ {id:'e6', nivel:2, tipo:'procedimental', titulo:'Separar bien', enun:r`Al separar las variables en \(y' = \dfrac{x^2}{y}\), ¿qué queda listo para integrar?`,
+  opts:[r`\(\dfrac{dy}{y} = x^2\,dx\)`, r`\(x^2\,dy = y\,dx\)`, r`\(dy = \dfrac{x^2}{y}\,dx\)`, r`\(y\,dy = x^2\,dx\)`], correct:3,
+  fbOk:r`Bien: la \(y\) que dividía pasa multiplicando al lado de \(dy\), y cada lado queda con una sola variable.`,
+  fbNo:r`Separado quiere decir: todo lo de \(y\) con \(dy\), todo lo de \(x\) con \(dx\). \(\dfrac{dy}{dx} = \dfrac{x^2}{y}\) se convierte en \(y\,dy = x^2\,dx\). Si te quedó una \(y\) del lado de \(dx\), todavía no está separada.`,
+  pistas:[r`Escribí \(y'\) como \(\dfrac{dy}{dx}\) y pensá que podés "pasar" \(dx\) y la \(y\) como en una proporción.`, r`El objetivo es que a la izquierda solo haya \(y\) y \(dy\), y a la derecha solo \(x\) y \(dx\).`, r`\(\dfrac{dy}{dx} = \dfrac{x^2}{y}\): multiplicá los dos lados por \(y\) y por \(dx\).`, r`Error típico: escribir \(\dfrac{dy}{y} = x^2\,dx\), que es la separación de \(y' = x^2\,y\), no de \(y' = \dfrac{x^2}{y}\). Si \(y\) divide, pasa multiplicando.`],
+  sol:r`<p>\(\dfrac{dy}{dx} = \dfrac{x^2}{y} \Rightarrow y\,dy = x^2\,dx\). Cada lado tiene una sola variable: se puede integrar (queda \(\dfrac{y^2}{2} = \dfrac{x^3}{3} + C\)). La opción \(dy = \dfrac{x^2}{y}\,dx\) es correcta como igualdad, pero no está separada (hay una \(y\) del lado de \(dx\)); \(\dfrac{dy}{y} = x^2\,dx\) corresponde a otra ecuación.</p>`},
+ {id:'e7', nivel:2, tipo:'procedimental', titulo:'Con logaritmo', enun:r`Resolvé \(y' = 3x^2\,y\). ¿Cuál es la solución general?`,
+  opts:[r`\(y = x^3 + C\)`, r`\(y = K\,e^{x^3}\)`, r`\(y = e^{x^3} + C\)`, r`\(y = K\,x^3\)`], correct:1,
+  fbOk:r`Bien: \(\ln|y| = x^3 + C\) y al despejar la constante pasa a multiplicar.`,
+  fbNo:r`Separá: \(\dfrac{dy}{y} = 3x^2\,dx\). Integrando, \(\ln|y| = x^3 + C\). Para despejar \(y\) se aplica \(e\): \(y = e^{C}\cdot e^{x^3} = K\,e^{x^3}\). Comprobá derivando la opción que elegiste: tiene que dar \(3x^2\,y\).`,
+  pistas:[r`Es separable: un factor con \(x\) (\(3x^2\)) por uno con \(y\) (\(y\)).`, r`Pasá \(y\) dividiendo a la izquierda y \(dx\) a la derecha, e integrá cada lado.`, r`\(\displaystyle\int \dfrac{dy}{y} = \ln|y|\) y \(\displaystyle\int 3x^2\,dx = x^3\). Después aplicá \(e\) a los dos lados.`, r`Error típico: dejar \(y = e^{x^3 + C}\) o escribir \(y = e^{x^3} + C\). La constante sale del exponente multiplicando: \(e^{x^3 + C} = e^{C}\,e^{x^3}\).`],
+  sol:r`<p>\(\dfrac{dy}{y} = 3x^2\,dx \Rightarrow \ln|y| = x^3 + C \Rightarrow |y| = e^{C}\,e^{x^3}\), y con \(K = \pm e^{C}\) (o \(K = 0\), que da la solución \(y = 0\)): \(y = K\,e^{x^3}\). Comprobación: \(y' = K\,e^{x^3}\cdot 3x^2 = 3x^2\,y\).</p>`},
+ {id:'e8', nivel:2, tipo:'procedimental', titulo:'Dos logaritmos', enun:r`Resolvé \(y' = \dfrac{y}{x}\) para \(x > 0\). ¿Cuál es la solución general?`,
+  opts:[r`\(y = \ln x + C\)`, r`\(y = \dfrac{K}{x}\)`, r`\(y = K\,x\)`, r`\(y = x + C\)`], correct:2,
+  fbOk:r`Bien: \(\ln|y| = \ln x + C\), y al aplicar \(e\), \(y = K\,x\): todas las rectas por el origen.`,
+  fbNo:r`Separá: \(\dfrac{dy}{y} = \dfrac{dx}{x}\). Integrando quedan dos logaritmos: \(\ln|y| = \ln x + C\). Aplicá \(e\): \(y = e^{C}\cdot x = K\,x\). Comprobá: \((Kx)' = K\) y \(\dfrac{Kx}{x} = K\). Ojo con \(y = \dfrac{K}{x}\): esa resuelve \(y' = -\dfrac{y}{x}\), con el signo cambiado.`,
+  pistas:[r`Es separable: \(\dfrac{y}{x} = \dfrac{1}{x}\cdot y\).`, r`Al separar queda \(\dfrac{dy}{y} = \dfrac{dx}{x}\): los dos lados son la misma integral conocida.`, r`\(\ln|y| = \ln x + C\). Recordá que \(e^{\ln x + C} = e^{C}\cdot x\).`, r`Error típico: "cancelar" los logaritmos y escribir \(y = x + C\). La constante se suma dentro del \(\ln\), y al aplicar \(e\) pasa a multiplicar.`],
+  sol:r`<p>\(\dfrac{dy}{y} = \dfrac{dx}{x} \Rightarrow \ln|y| = \ln x + C \Rightarrow |y| = e^{C}\,x \Rightarrow y = K\,x\). La familia son las rectas que pasan por el origen, y tiene sentido: en \(y' = \dfrac{y}{x}\) la pendiente en cada punto es la de la recta que lo une con el origen.</p>`},
+ {id:'e9', nivel:2, tipo:'procedimental', titulo:'Solución en forma implícita', enun:r`Resolvé \(y' = -\dfrac{x}{y}\). ¿Cuál es la solución general?`,
+  opts:[r`\(y = -\dfrac{x^2}{2} + C\)`, r`\(y^2 - x^2 = K\)`, r`\(y = K\,e^{-x}\)`, r`\(x^2 + y^2 = K\)`], correct:3,
+  fbOk:r`Bien: \(y\,dy = -x\,dx\) da \(\dfrac{y^2}{2} = -\dfrac{x^2}{2} + C\), y multiplicando por \(2\) queda \(x^2 + y^2 = K\): circunferencias, como viste en el laboratorio.`,
+  fbNo:r`Separá: \(y\,dy = -x\,dx\). Integrando, \(\dfrac{y^2}{2} = -\dfrac{x^2}{2} + C\). Multiplicá por \(2\) y pasá el \(x^2\): \(x^2 + y^2 = K\). No hace falta despejar \(y\): la solución queda en forma implícita, y es la familia de circunferencias centradas en el origen que dibujó el laboratorio.`,
+  pistas:[r`Es separable, con \(f(x) = -x\) y \(g(y) = \dfrac{1}{y}\). Compará con el ejemplo \(y' = \dfrac{x}{y}\) de la teoría: solo cambia un signo.`, r`Pasá la \(y\) multiplicando a \(dy\) y la \(x\) queda con \(dx\). Integrá cada lado.`, r`\(\dfrac{y^2}{2} = -\dfrac{x^2}{2} + C\). Multiplicá todo por \(2\) y juntá \(x^2\) e \(y^2\) del mismo lado.`, r`Error típico: querer despejar \(y\) a toda costa y elegir una opción con "\(y =\)". Una solución implícita como \(x^2 + y^2 = K\) es una respuesta completa. La otra trampa es el signo: \(y^2 - x^2 = K\) resuelve \(y' = +\dfrac{x}{y}\).`],
+  sol:r`<p>\(\dfrac{dy}{dx} = -\dfrac{x}{y} \Rightarrow y\,dy = -x\,dx \Rightarrow \dfrac{y^2}{2} = -\dfrac{x^2}{2} + C \Rightarrow x^2 + y^2 = K\) (con \(K = 2C > 0\)). Cada \(K\) es una circunferencia de radio \(\sqrt{K}\). Comprobación: derivando \(x^2 + y^2 = K\) respecto de \(x\), \(2x + 2y\,y' = 0\), es decir \(y' = -\dfrac{x}{y}\).</p>`},
+ {id:'e10', nivel:2, tipo:'analisis', titulo:'Problema de valor inicial', enun:r`Resolvé \(y' = 5y\) con \(y(0) = -2\).`,
+  opts:[r`\(y = 2\,e^{-5x}\)`, r`\(y = -2\,e^{5x}\)`, r`\(y = e^{5x} - 3\)`, r`\(y = -10x - 2\)`], correct:1,
+  fbOk:r`Bien: primero \(y = K\,e^{5x}\), y la condición \(y(0) = -2\) da \(K = -2\). La constante puede ser negativa: es lo que decide en qué lado del eje vive la curva.`,
+  fbNo:r`Dos tiempos: primero la general, \(y = K\,e^{5x}\) (de \(\ln|y| = 5x + C\)); después \(y(0) = -2\) da \(K\cdot 1 = -2\). La opción \(e^{5x} - 3\) pasa por \((0\,;\,-2)\) pero no cumple la ecuación: su derivada es \(5e^{5x}\), y \(5y = 5e^{5x} - 15\).`,
+  pistas:[r`Primero la solución general, después la condición inicial. Nunca al revés.`, r`Separá: \(\dfrac{dy}{y} = 5\,dx\), integrá y despejá \(y\).`, r`\(y = K\,e^{5x}\). Reemplazá \(x = 0\), \(y = -2\): ¿cuánto vale \(K\)? Puede dar negativo.`, r`Error típico: elegir una función que pasa por \((0\,;\,-2)\) sin comprobar que cumpla la ecuación. La solución tiene que hacer las dos cosas.`],
+  sol:r`<p>General: \(\dfrac{dy}{y} = 5\,dx \Rightarrow \ln|y| = 5x + C \Rightarrow y = K\,e^{5x}\). Condición: \(y(0) = K\,e^{0} = K = -2\). <b>Particular: \(y = -2\,e^{5x}\)</b>. Comprobación: \(y' = -10e^{5x} = 5y\) y \(y(0) = -2\).</p>`},
+ {id:'e11', nivel:3, tipo:'analisis', titulo:'Elegir la curva de la familia', enun:r`De todas las soluciones de \(y' = 2x\), ¿cuál pasa por el punto \((2\,;\,1)\)?`,
+  opts:[r`\(y = x^2 - 3\)`, r`\(y = x^2 + 1\)`, r`\(y = x^2 - 1\)`, r`\(y = 2x - 3\)`], correct:0,
+  fbOk:r`Bien: \(y = x^2 + C\), y \(4 + C = 1\) da \(C = -3\).`,
+  fbNo:r`La familia es \(y = x^2 + C\). Pasar por \((2\,;\,1)\) significa \(y(2) = 1\): \(2^2 + C = 1\), \(C = -3\). La opción \(2x - 3\) pasa por el punto pero su derivada es \(2\), no \(2x\).`,
+  pistas:[r`"Pasa por \((2\,;\,1)\)" es una condición inicial: \(y(2) = 1\).`, r`Escribí primero la general: \(y = x^2 + C\).`, r`Reemplazá \(x = 2\) e \(y = 1\) en \(y = x^2 + C\) y despejá \(C\).`, r`Error típico: reemplazar el punto en la ecuación diferencial (\(y' = 4\)) y armar una recta. La condición se usa en la solución general, no en la ecuación.`],
+  sol:r`<p>General: \(y = x^2 + C\). Condición \(y(2) = 1\): \(4 + C = 1 \Rightarrow C = -3\). <b>\(y = x^2 - 3\)</b>. Las opciones \(x^2 + 1\) y \(x^2 - 1\) son de la familia pero no pasan por el punto; \(2x - 3\) pasa por el punto pero no es de la familia.</p>`},
+ {id:'e12', nivel:3, tipo:'analisis', titulo:'La solución singular', enun:r`Para \((y')^2 = 4y\), la solución general es \(y = (x + C)^2\). Sobre la función \(y = 0\), ¿cuál afirmación es correcta?`,
+  opts:[r`No es solución: una constante tiene derivada \(0\), y la ecuación pide otra cosa.`, r`Es la solución particular que sale de la general con \(C = 0\).`, r`No es solución: la ecuación no tiene sentido cuando \(y = 0\).`, r`Es solución, pero no sale de la general con ningún \(C\): es singular.`], correct:3,
+  fbOk:r`Bien: \(0^2 = 4\cdot 0\) se cumple, y \((x + C)^2\) nunca es la función nula.`,
+  fbNo:r`Verificá: si \(y = 0\), \(y' = 0\) y \((y')^2 = 0 = 4\cdot 0\). Cumple. Ahora buscá un \(C\) que haga \((x + C)^2 = 0\) para todo \(x\): no existe (solo se anula en \(x = -C\)). Solución que cumple pero no está en la familia: singular.`,
+  pistas:[r`Dos preguntas separadas: ¿cumple la ecuación? ¿está en la familia?`, r`Para la primera, reemplazá \(y = 0\) e \(y' = 0\) en \((y')^2 = 4y\).`, r`Para la segunda, preguntate: ¿existe algún \(C\) con \((x + C)^2 = 0\) para todo \(x\)? Probá con \(C = 0\).`, r`Error típico: pensar que "derivada cero" descalifica. \(y = 0\) es una función constante y su derivada es \(0\), que es justo lo que la ecuación necesita en ese caso.`],
+  sol:r`<p>\(y = 0\) cumple: \((y')^2 = 0 = 4\cdot 0\). Pero \((x + C)^2 = 0\) solo en \(x = -C\), nunca para todo \(x\): no hay \(C\) que la genere (con \(C = 0\) sale \(y = x^2\), no \(y = 0\)). Es una <b>solución singular</b>, la recta a la que todas las parábolas de la familia son tangentes en su vértice. De paso: la ecuación es de orden 1 y grado 2.</p>`},
+ {id:'e13', nivel:3, tipo:'analisis', titulo:'Desintegración radiactiva', enun:r`Una muestra de \(800\) mg de un isótopo se desintegra según \(N' = -0{,}1\,N\), con \(t\) en años. ¿Cuál es \(N(t)\)?`,
+  opts:[r`\(N = 800\,e^{-0{,}1t}\)`, r`\(N = 800 - 0{,}1\,t\)`, r`\(N = 800\,e^{0{,}1t}\)`, r`\(N = e^{-0{,}1t} + 799\)`], correct:0,
+  fbOk:r`Bien: general \(N = K\,e^{-0{,}1t}\), y \(N(0) = 800\) da \(K = 800\). La cantidad decrece, como corresponde a \(k < 0\).`,
+  fbNo:r`Es \(y' = ky\) con \(k = -0{,}1\): separando, \(\dfrac{dN}{N} = -0{,}1\,dt\), \(\ln N = -0{,}1t + C\) (como \(N > 0\), no hace falta el valor absoluto), \(N = K\,e^{-0{,}1t}\). La condición \(N(0) = 800\) fija \(K = 800\). Una recta no sirve: la velocidad de desintegración cambia con la cantidad que queda. Y \(e^{-0{,}1t} + 799\) pasa por \(800\) en \(t = 0\), pero no cumple la ecuación: su derivada es \(-0{,}1\,e^{-0{,}1t}\), que no es \(-0{,}1\,N\).`,
+  pistas:[r`Es la ecuación \(y' = k\,y\) con otro nombre: la incógnita es \(N(t)\).`, r`Separá: \(\dfrac{dN}{N} = -0{,}1\,dt\), integrá y despejá \(N\).`, r`\(N = K\,e^{-0{,}1t}\). La condición inicial es \(N(0) = 800\).`, r`Error típico: elegir el signo del exponente al revés. Con \(k < 0\) la exponencial decrece, que es lo que hace una muestra que se desintegra.`],
+  sol:r`<p>\(\dfrac{dN}{N} = -0{,}1\,dt \Rightarrow \ln N = -0{,}1t + C\) (\(N > 0\), sin valor absoluto) \(\Rightarrow N = K\,e^{-0{,}1t}\). Con \(N(0) = 800\): \(K = 800\). <b>\(N(t) = 800\,e^{-0{,}1t}\)</b>. Comprobación: \(N' = -80\,e^{-0{,}1t} = -0{,}1\,N\).</p>`},
+ {id:'e14', nivel:3, tipo:'analisis', titulo:'Enfriamiento de Newton', enun:r`Un café a \(90\,{}^{\circ}\text{C}\) se enfría en una habitación a \(20\,{}^{\circ}\text{C}\) según \(T' = -k\,(T - 20)\). ¿Cuál es \(T(t)\)?`,
+  opts:[r`\(T = 90\,e^{-kt}\)`, r`\(T = 20 + 90\,e^{-kt}\)`, r`\(T = 20 + 70\,e^{-kt}\)`, r`\(T = 70 - 20\,e^{-kt}\)`], correct:2,
+  fbOk:r`Bien: \(T - 20 = K\,e^{-kt}\), y \(T(0) = 90\) da \(K = 70\). Cuando \(t\) crece, \(T \to 20\): el café llega a la temperatura del ambiente.`,
+  fbNo:r`Separá con \(T - 20\) como bloque: \(\dfrac{dT}{T - 20} = -k\,dt\), \(\ln|T - 20| = -kt + C\), \(T - 20 = K\,e^{-kt}\). La condición \(T(0) = 90\) da \(90 - 20 = K = 70\). Probá cada opción en \(t = 0\): tiene que dar \(90\); y cuando \(t \to \infty\) tiene que tender a \(20\).`,
+  pistas:[r`Es separable: \(-k\) por \((T - 20)\). Tratá a \(T - 20\) como un bloque.`, r`\(\dfrac{dT}{T - 20} = -k\,dt\). La integral de la izquierda es un logaritmo (la derivada de \(T - 20\) es \(1\)).`, r`\(T - 20 = K\,e^{-kt}\). Reemplazá \(t = 0\), \(T = 90\).`, r`Error típico: poner \(K = 90\) en vez de \(K = 70\). La constante multiplica a \(e^{-kt}\) en \(T - 20\), no en \(T\): \(K = 90 - 20\).`],
+  sol:r`<p>\(\dfrac{dT}{T - 20} = -k\,dt \Rightarrow \ln|T - 20| = -kt + C \Rightarrow T - 20 = K\,e^{-kt}\). Con \(T(0) = 90\): \(K = 70\). <b>\(T(t) = 20 + 70\,e^{-kt}\)</b>. Dos controles físicos: en \(t = 0\) da \(90\), y para \(t\) grande tiende a \(20\), la temperatura del ambiente.</p>`},
+ {id:'e15', nivel:3, tipo:'analisis', titulo:'Descarga de un capacitor', enun:r`Un capacitor de \(C = 0{,}001\ \text{F}\) se descarga a través de una resistencia de \(R = 2000\ \Omega\). Su carga cumple \(q' = -\dfrac{q}{RC}\) (acá \(C\) es la capacidad; a la constante de integración la llamamos \(K\)). Si arranca con carga \(q_0\), ¿en qué instante la carga es la mitad de \(q_0\)?`,
+  opts:[r`\(t = 2\,e^{-1} \approx 0{,}74\ \text{s}\)`, r`\(t = 2\ \text{s}\)`, r`\(t = \ln 2 \approx 0{,}69\ \text{s}\)`, r`\(t = 2\ln 2 \approx 1{,}39\ \text{s}\)`], correct:3,
+  fbOk:r`Bien: \(RC = 2\ \text{s}\), \(q = q_0\,e^{-\frac{t}{2}}\), y \(e^{-\frac{t}{2}} = \dfrac{1}{2}\) da \(t = 2\ln 2\).`,
+  fbNo:r`Primero \(RC = 2000\cdot 0{,}001 = 2\ \text{s}\), así que \(q' = -\dfrac{q}{2}\). Separando, \(q = q_0\,e^{-\frac{t}{2}}\). Ahora pedí \(q = \dfrac{q_0}{2}\): \(e^{-\frac{t}{2}} = \dfrac{1}{2}\), \(-\dfrac{t}{2} = -\ln 2\), \(t = 2\ln 2\). El tiempo \(RC = 2\ \text{s}\) es cuando la carga cae a \(e^{-1} \approx 37\,\%\), no a la mitad.`,
+  pistas:[r`Calculá primero el producto \(RC\): es un tiempo, en segundos.`, r`Con \(RC = 2\), la ecuación es \(q' = -\dfrac{q}{2}\): otra vez \(y' = ky\). Resolvela con \(q(0) = q_0\).`, r`\(q = q_0\,e^{-\frac{t}{2}}\). Igualá a \(\dfrac{q_0}{2}\), simplificá \(q_0\) y aplicá \(\ln\) a los dos lados.`, r`Error típico: contestar \(t = RC = 2\ \text{s}\). En \(t = RC\) la carga es \(q_0\,e^{-1}\), alrededor del \(37\,\%\), no la mitad. Para la mitad hace falta \(\ln 2\).`],
+  sol:r`<p>\(RC = 2000\cdot 0{,}001 = 2\ \text{s}\), así que \(q' = -\dfrac{q}{2}\). Separando: \(\dfrac{dq}{q} = -\dfrac{1}{2}\,dt \Rightarrow q = K\,e^{-\frac{t}{2}}\), y \(q(0) = q_0\) da \(K = q_0\). Mitad de la carga: \(q_0\,e^{-\frac{t}{2}} = \dfrac{q_0}{2} \Rightarrow e^{-\frac{t}{2}} = \dfrac{1}{2} \Rightarrow -\dfrac{t}{2} = -\ln 2 \Rightarrow t = 2\ln 2 \approx 1{,}39\ \text{s}\). En general, el tiempo de "media carga" es \(RC\cdot\ln 2\).</p>`}
+];
+
+const TEO = [
+ {id:'t1', enun:r`Sobre \(y''' + y' = 0\), ¿cuál afirmación es correcta?`,
+  opts:[r`Es de orden 1: ninguna derivada está elevada a una potencia.`, r`Es de orden 2: aparecen dos derivadas.`, r`Es de orden 3: la derivada más alta es \(y'''\).`, r`Es de orden 4: hay cuatro primas en total.`], correct:2,
+  fb:[r`<b>No es esa.</b> Lo que estás mirando, la potencia, es el grado (que acá es 1). El orden es otra cosa: el de la derivada más alta, \(y'''\), o sea 3.`,
+      r`<b>No es esa.</b> El orden no cuenta cuántas derivadas aparecen, sino cuál es la más alta. La más alta es \(y'''\): orden 3.`,
+      r`<b>Correcto.</b> Y el grado es 1, porque \(y'''\) está elevada a la primera potencia.`,
+      r`<b>No es esa.</b> Las primas no se suman entre términos: se mira un solo término, el de la derivada más alta. Es \(y'''\): orden 3.`]},
+ {id:'t2', enun:r`Una solución particular es…`,
+  opts:[r`una función que cumple la ecuación pero no sale de la familia`, r`la familia completa, con la constante libre`, r`la curva de la familia que sale al fijar la constante con una condición`, r`la única solución que tiene toda ecuación diferencial`], correct:2,
+  fb:[r`<b>No es esa.</b> Esa es la solución singular, como \(y = 0\) en \(y' = 2\sqrt{y}\). La particular sí sale de la familia: es la curva que queda al fijar \(C\).`,
+      r`<b>No es esa.</b> Esa es la solución general. La particular es una sola curva de esa familia: la que queda al fijar \(C\) con una condición inicial.`,
+      r`<b>Correcto.</b> Por ejemplo, de la familia \(y = x^2 + C\), la condición \(y(1) = 3\) deja \(y = x^2 + 2\).`,
+      r`<b>No es esa.</b> Una ecuación diferencial no tiene una única solución sino una familia. La particular es una curva de esa familia: la que cumple, además, una condición inicial.`]},
+ {id:'t3', enun:r`Cuatro respuestas para «solución general de \(y' = -3y\)». ¿Cuál está bien?`,
+  opts:[r`\(y = -3x + C\)`, r`\(y = e^{-3x} + C\)`, r`\(y = K\,e^{3x}\)`, r`\(y = K\,e^{-3x}\)`], correct:3,
+  fb:[r`<b>No es esa.</b> Ahí se integró el \(-3\) como si el lado derecho no tuviera \(y\). Con \(y\) hay que separar: \(\dfrac{dy}{y} = -3\,dx\), \(\ln|y| = -3x + C\), \(y = K\,e^{-3x}\).`,
+      r`<b>No es esa.</b> La constante quedó sumando, y tiene que multiplicar: de \(\ln|y| = -3x + C\) sale \(y = e^{C}\cdot e^{-3x} = K\,e^{-3x}\). Comprobalo: \((e^{-3x} + C)' = -3\,e^{-3x}\), pero \(-3y = -3\,e^{-3x} - 3C\).`,
+      r`<b>No es esa.</b> Se perdió el signo del exponente: \((K\,e^{3x})' = 3K\,e^{3x} = 3y\), no \(-3y\). Es \(y = K\,e^{-3x}\).`,
+      r`<b>Correcto.</b> \(\dfrac{dy}{y} = -3\,dx\), \(\ln|y| = -3x + C\), y la constante sale multiplicando. Con \(K = 0\) entra también \(y = 0\).`]},
+ {id:'t4', enun:r`Cuatro respuestas para \(y' = 3y\) con \(y(0) = 2\). ¿Cuál cumple las dos cosas, la ecuación y la condición?`,
+  opts:[r`\(y = 3\,e^{2x}\)`, r`\(y = 2\,e^{3x}\)`, r`\(y = e^{3x} + 1\)`, r`\(y = 6x + 2\)`], correct:1,
+  fb:[r`<b>No es esa.</b> Los números están cruzados: el \(3\) de la ecuación va en el exponente y el \(2\) de la condición es la constante. Además acá \(y(0) = 3\), no \(2\).`,
+      r`<b>Correcto.</b> General: \(y = K\,e^{3x}\); la condición \(y(0) = 2\) da \(K = 2\). Cumple la ecuación (\(y' = 6\,e^{3x} = 3y\)) y la condición.`,
+      r`<b>No es esa.</b> Pasa por \((0\,;\,2)\), pero no cumple la ecuación: \(y' = 3\,e^{3x}\) y \(3y = 3\,e^{3x} + 3\). La solución tiene que hacer las dos cosas.`,
+      r`<b>No es esa.</b> Ahí se reemplazó la condición en la ecuación antes de integrar (\(y' = 3\cdot 2 = 6\)) y se armó una recta. Primero la general, \(y = K\,e^{3x}\); después la condición.`]}
+];
+
+const LAB_RECTAS = [];
+const LAB_COMPARA = 'fijate si alguna cruza a otra.';
+const VETO_EJE_X = (x0, y0) => Math.abs(y0) < 0.15 ? r`Sobre el eje \(x\) esta ecuación no está definida (\(y = 0\) divide). Hacé clic un poco más arriba o más abajo.` : '';
+const LAB = [
+ {chip:r`\(y' = 2x\)`, tex:r`y' = 2x \qquad\Rightarrow\qquad y = x^2 + C`, f:(x,y)=>2*x, cte:(x0,y0)=>y0-x0*x0, ctxt:(c)=>r`y = x^2 ` + (c<0 ? r`- ` + fmtTex(-c) : r`+ ` + fmtTex(c)), cnom:'C'},
+ {chip:r`\(y' = y\)`, tex:r`y' = y \qquad\Rightarrow\qquad y = C\,e^{x}`, f:(x,y)=>y, cte:(x0,y0)=>y0*Math.exp(-x0), ctxt:(c)=>r`y = ` + fmtTex(c) + r`\,e^{x}`, cnom:'C'},
+ {chip:r`\(y' = -2y\)`, tex:r`y' = -2y \qquad\Rightarrow\qquad y = C\,e^{-2x}`, f:(x,y)=>-2*y, cte:(x0,y0)=>y0*Math.exp(2*x0), ctxt:(c)=>r`y = ` + fmtTex(c) + r`\,e^{-2x}`, cnom:'C'},
+ {chip:r`\(y' = -\dfrac{x}{y}\)`, tex:r`y' = -\dfrac{x}{y} \qquad\Rightarrow\qquad x^2 + y^2 = K`, f:(x,y)=>-x/y, veto:VETO_EJE_X, cte:(x0,y0)=>x0*x0+y0*y0, ctxt:(c)=>r`x^2 + y^2 = ` + fmtTex(c), cnom:'K'},
+ {chip:r`\(y' = \dfrac{x}{y}\)`, tex:r`y' = \dfrac{x}{y} \qquad\Rightarrow\qquad y^2 - x^2 = K`, f:(x,y)=>x/y, veto:VETO_EJE_X, cte:(x0,y0)=>y0*y0-x0*x0, ctxt:(c)=>r`y^2 - x^2 = ` + fmtTex(c), cnom:'K'},
+ {chip:r`\(y' = 2\sqrt{y}\)`, tex:r`y' = 2\sqrt{y} \qquad\Rightarrow\qquad y = (x + C)^2 \quad (x \ge -C)`,
+  f:(x,y)=>y < 0 ? NaN : 2*Math.sqrt(y), fr:(x,y)=>y <= 0 ? 0 : 2*Math.sqrt(y),
+  veto:(x0,y0)=>y0 < 0 ? r`Debajo del eje \(x\) esta ecuación no está definida: \(\sqrt{y}\) pide \(y \ge 0\). Hacé clic del eje para arriba.` : '',
+  cte:(x0,y0)=>Math.sqrt(Math.max(y0,0)) - x0, ctxt:(c)=>Math.abs(c) < 0.005 ? r`y = x^2` : r`y = (x ` + (c<0 ? r`- ` + fmtTex(-c) : r`+ ` + fmtTex(c)) + r`)^2`, cnom:'C',
+  nota:(x0,y0,c)=>y0 < 0.03 ? r`Ese punto está sobre la recta \(y = 0\), la <b>solución singular</b>: la curva dibujada es esa recta hacia la izquierda y la parábola hacia la derecha, que se tocan justo ahí.` : r`La curva baja por la parábola hasta su vértice, en \(x = ` + fmtTex(-c) + r`\), y de ahí hacia la izquierda sigue apoyada sobre la recta \(y = 0\), que también cumple la ecuación y no sale de la familia: es la <b>solución singular</b>.`,
+  compara:'todas terminan apoyadas sobre la misma recta.'}
+];
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+const STORE_KEY = 'philips_u5e1_separables_v2';
+const ST = {
+  stage:0, unlocked:0,
+  activ:{answers:{}, visto:false},
+  teo:{answers:{}},
+  lab:{pred:null, concl:null, obs:'', ed:1, curvas:[]},
+  prac:{ok:{}, intentos:{}, pistas:{}, meta:{}, nivelVisto:1},
+  meta:{textos:['','','',''], resumen:''},
+  nombre:'', curso:''
+};
+function guardar(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(ST)); } catch(_){} }
+function cargar(){ try { const s = localStorage.getItem(STORE_KEY); if (s){ const o = JSON.parse(s); deepMerge(ST, o); } } catch(_){} }
+function deepMerge(a, b){ for (const k in b){ if (b[k] && typeof b[k]==='object' && !Array.isArray(b[k]) && a[k] && typeof a[k]==='object') deepMerge(a[k], b[k]); else a[k] = b[k]; } }
+
+/* =====================================================================
+   NAVEGACIÓN
+   ===================================================================== */
+
+const PANT = ['Inicio','Antes de empezar','Teoría','Laboratorio','Práctica','Cierre y reporte'];
+const PANT_C = ['Inicio','Antes','Teoría','Lab','Práctica','Cierre'];
+const TRAMO = [{nombre:'En clase', desde:0, hasta:3}, {nombre:'En casa', desde:4, hasta:5}];
+const NP = PANT.length;
+function renderPills(){
+  $('#pills').innerHTML = TRAMO.map((g,gi) => (gi ? '<span class="grp-sep"></span>' : '') + `<span class="grp">${g.nombre}</span>` + PANT.map((p,i) => (i<g.desde || i>g.hasta) ? '' : `<button type="button" class="pill${i===ST.stage?' active':''}${i<ST.unlocked?' done':''}" data-go="${i}" title="${p}"><span class="n">${i}</span><span class="lbl">${p}</span><span class="lbl-c">${PANT_C[i]}</span></button>`).join('')).join('');
+  $('#progBar').style.width = (ST.stage/(NP-1)*100) + '%';
+  const g = TRAMO.find(t => ST.stage>=t.desde && ST.stage<=t.hasta);
+  $('#progTxt').textContent = `Pantalla ${ST.stage} · ${PANT[ST.stage]} · ${g.nombre.toLowerCase()}`;
+}
+function ir(k, silencioso){
+  k = +k; if (isNaN(k) || k<0 || k>NP-1) return;
+  ST.stage = k; if (k > ST.unlocked) ST.unlocked = k;
+  for (let i=0;i<NP;i++){ const el = $('#s'+i); el.classList.toggle('sec-visible', i===k); el.classList.toggle('sec-hidden', i!==k); }
+  renderPills();
+  if (k===2 || k===3) drawLab();
+  if (k===4) actualizarProgreso();
+  if (k===5) renderReporte();
+  autoGrowAll();
+  if (!silencioso){ guardar(); $('#s'+k).scrollIntoView({block:'start', behavior:'instant'}); }
+}
+window.ir = ir;
+
+/* =====================================================================
+   UTILIDADES
+   ===================================================================== */
+const fmt = v => { const s = (Math.round(v*100)/100).toString().replace('.', ','); return s.replace('-', '−'); };
+const fmtTex = v => (Math.round(v*100)/100).toString().replace('.', '{,}');
+function autoGrowAll(){ $$('textarea').forEach(t => { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 2) + 'px'; }); }
+function mcq(id, tt, enun, opts, extraTt){
+  return `<div class="act" data-q="${id}"><div class="tt">${tt}${extraTt||''}</div><div class="q">${enun}</div><div class="opts">${opts.map((o,j) => `<button type="button" class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div><div class="fb" data-fbq></div></div>`;
+}
+
+/* =====================================================================
+   PREGUNTAS DE LA TEORÍA
+   ===================================================================== */
+
+function renderTeo(){
+  TEO.forEach(t => { const h = $(`[data-teo="${t.id}"]`); if (h){ h.innerHTML = mcq(t.id, 'Antes de seguir', t.enun, t.opts); tex(h); } });
+}
+function responderTeo(box, j, silencioso){
+  const t = TEO.find(x => x.id===box.dataset.q); if (!t || ST.teo.answers[t.id]!==undefined) return;
+  ST.teo.answers[t.id] = j;
+  const ok = j===t.correct;
+  $$('.opt', box).forEach((b,k) => { b.disabled = true; b.classList.add(k===t.correct ? 'right' : (k===j ? 'wrong' : 'dim')); });
+  const fb = $('[data-fbq]', box); fb.className = 'fb show ' + (ok ? 'good' : 'bad'); fb.innerHTML = t.fb[j]; tex(fb);
+  if (!silencioso) guardar();
+}
+
+/* =====================================================================
+   ACTIVACIÓN
+   ===================================================================== */
+function renderActiv(){
+  $('#activList').innerHTML = ACTIV.map((a,i) => mcq(a.id, `${a.icono} ${a.titulo}`, a.enun, a.opts)).join('');
+  tex($('#activList'));
+}
+function responderActiv(box, j, silencioso){
+  const a = ACTIV.find(x => x.id===box.dataset.q); if (!a || ST.activ.answers[a.id]!==undefined) return;
+  ST.activ.answers[a.id] = j;
+  const ok = j===a.correct;
+  $$('.opt', box).forEach((b,k) => { b.disabled = true; b.classList.add(k===a.correct ? 'right' : (k===j ? 'wrong' : 'dim')); });
+  const fb = $('[data-fbq]', box); fb.className = 'fb show ' + (ok ? 'good' : 'bad'); fb.innerHTML = a.fb[j]; tex(fb);
+  if (Object.keys(ST.activ.answers).length===ACTIV.length) ST.activ.visto = true;
+  if (!silencioso) guardar();
+}
+
+/* =====================================================================
+   LABORATORIO · campo de direcciones
+   ===================================================================== */
+
+const LX = [-4, 4], LY = [-4, 4];
+const LAB_MSG0 = 'Hacé clic en cualquier punto del plano: ese punto es una <b>condición inicial</b>, y la curva que aparece es la solución particular que pasa por ahí.';
+function initLab(){
+  if (!LAB[ST.lab.ed]) ST.lab.ed = 0;
+  $('#labEd').innerHTML = LAB.map((s,i) => `<button type="button" class="chip${i===ST.lab.ed?' on':''}" data-ed="${i}">${s.chip}</button>`).join('');
+  tex($('#labEd'));
+  setLabFormula();
+}
+function setLabEd(i){
+  ST.lab.ed = i; ST.lab.curvas = [];
+  $$('#labEd .chip').forEach(c => c.classList.toggle('on', +c.dataset.ed===i));
+  setLabFormula(); drawLab();
+  $('#labStatus').innerHTML = LAB_MSG0;
+  guardar();
+}
+function setLabFormula(){
+  const s = LAB[ST.lab.ed];
+  $('#labFormula').innerHTML = r`\[` + s.tex + r`\]`; tex($('#labFormula'));
+}
+function rk4(s, x0, y0, dir){
+  const pts = [[x0,y0]]; let x = x0, y = y0; const paso = s.h || 0.01; const h = paso*dir; const f = s.fr || s.f;
+  for (let i=0, n=Math.round(12/paso); i<n; i++){
+    let k1, k2, k3, k4;
+    try { k1 = f(x,y); k2 = f(x+h/2, y+h*k1/2); k3 = f(x+h/2, y+h*k2/2); k4 = f(x+h, y+h*k3); } catch(_){ break; }
+    if (![k1,k2,k3,k4].every(isFinite)) break;
+    if (Math.abs(k1) > 60) break;
+    y += h*(k1 + 2*k2 + 2*k3 + k4)/6; x += h;
+    if (!isFinite(y) || x < LX[0]-0.2 || x > LX[1]+0.2 || y < LY[0]-0.2 || y > LY[1]+0.2) break;
+    if (s.sigue && !s.sigue(x, y, x0, y0)) break;
+    pts.push([x,y]);
+  }
+  return pts;
+}
+function drawLab(){
+  const cv = $('#labCanvas'); if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const s = LAB[ST.lab.ed];
+  const X = x => (x - LX[0])/(LX[1]-LX[0])*W;
+  const Y = y => H - (y - LY[0])/(LY[1]-LY[0])*H;
+  ctx.clearRect(0,0,W,H);
+  // grilla
+  ctx.strokeStyle = '#efeade'; ctx.lineWidth = 1;
+  for (let x=LX[0]; x<=LX[1]; x++){ ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),H); ctx.stroke(); }
+  for (let y=LY[0]; y<=LY[1]; y++){ ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(W,Y(y)); ctx.stroke(); }
+  // rectas por el origen
+  if (LAB_RECTAS.length){
+    ctx.strokeStyle = '#c9c2b4'; ctx.lineWidth = 1.2; ctx.setLineDash([5,5]);
+    LAB_RECTAS.forEach(m => { ctx.beginPath(); ctx.moveTo(X(LX[0]), Y(LX[0]*m)); ctx.lineTo(X(LX[1]), Y(LX[1]*m)); ctx.stroke(); });
+    ctx.setLineDash([]);
+  }
+  // ejes
+  ctx.strokeStyle = '#8a8478'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+  ctx.fillStyle = '#5f5b53'; ctx.font = '12px "Fira Code", monospace'; ctx.textAlign = 'center';
+  for (let x=LX[0]; x<=LX[1]; x++){ if (x!==0) ctx.fillText(fmt(x), X(x), Y(0)+16); }
+  ctx.textAlign = 'right';
+  for (let y=LY[0]; y<=LY[1]; y++){ if (y!==0) ctx.fillText(fmt(y), X(0)-6, Y(y)+4); }
+  ctx.textAlign = 'left'; ctx.font = '600 13px "Hanken Grotesk", sans-serif'; ctx.fillStyle = '#5f5b53';
+  ctx.fillText('x', W-14, Y(0)-8); ctx.fillText('y', X(0)+8, 14);
+  // campo de direcciones
+  const N = 24; const dx = (LX[1]-LX[0])/N, dy = (LY[1]-LY[0])/N; const L = 9;
+  ctx.strokeStyle = '#8fa4c4'; ctx.lineWidth = 1.4;
+  for (let i=0;i<N;i++) for (let j=0;j<N;j++){
+    const x = LX[0] + (i+0.5)*dx, y = LY[0] + (j+0.5)*dy;
+    let m; try { m = s.f(x,y); } catch(_){ continue; }
+    if (!isFinite(m)) continue;
+    const ang = Math.atan(m); const cx = X(x), cy = Y(y);
+    ctx.beginPath(); ctx.moveTo(cx - L*Math.cos(ang), cy + L*Math.sin(ang)); ctx.lineTo(cx + L*Math.cos(ang), cy - L*Math.sin(ang)); ctx.stroke();
+  }
+  // recta por el origen del último punto elegido
+  if (LAB_RECTAS.length && ST.lab.curvas.length){
+    const u = ST.lab.curvas[ST.lab.curvas.length-1];
+    if (Math.abs(u[0]) > 1e-9){
+      const m = u[1]/u[0];
+      ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
+      ctx.strokeStyle = '#C77A40'; ctx.lineWidth = 2; ctx.setLineDash([8,5]);
+      ctx.beginPath(); ctx.moveTo(X(LX[0]), Y(LX[0]*m)); ctx.lineTo(X(LX[1]), Y(LX[1]*m)); ctx.stroke();
+      ctx.restore();
+    }
+  }
+  // curvas
+  const cols = ['#6E4EAA','#BC5235','#45785A','#C77A40','#2B5A93','#8a5a9e'];
+  ST.lab.curvas.forEach((c, idx) => {
+    const col = cols[idx % cols.length];
+    ctx.strokeStyle = col; ctx.lineWidth = 2.4;
+    [1,-1].forEach(dir => { const pts = rk4(s, c[0], c[1], dir); ctx.beginPath(); pts.forEach((p,i) => { if (i===0) ctx.moveTo(X(p[0]),Y(p[1])); else ctx.lineTo(X(p[0]),Y(p[1])); }); ctx.stroke(); });
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(c[0]), Y(c[1]), 5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+}
+function labClick(ev){
+  const cv = $('#labCanvas'); const rect = cv.getBoundingClientRect();
+  const px = (ev.clientX - rect.left)/rect.width*cv.width, py = (ev.clientY - rect.top)/rect.height*cv.height;
+  const x0 = LX[0] + px/cv.width*(LX[1]-LX[0]), y0 = LY[1] - py/cv.height*(LY[1]-LY[0]);
+  const s = LAB[ST.lab.ed];
+  const veto = s.veto ? s.veto(x0, y0) : '';
+  if (veto){ $('#labStatus').innerHTML = veto; tex($('#labStatus')); return; }
+  if (ST.lab.curvas.length >= 6) ST.lab.curvas.shift();
+  ST.lab.curvas.push([Math.round(x0*100)/100, Math.round(y0*100)/100]);
+  const c = s.cte(x0, y0);
+  $('#labStatus').innerHTML = `<b>Condición inicial</b> \\(y(${fmtTex(x0)}) = ${fmtTex(y0)}\\) → la constante vale \\(${s.cnom} = ${fmtTex(c)}\\), y la solución particular es \\(${s.ctxt(c)}\\).` + (s.nota ? ' ' + s.nota(x0, y0, c) : '') + (ST.lab.curvas.length>1 ? ` Llevás ${ST.lab.curvas.length} curvas: ${s.compara || LAB_COMPARA}` : '');
+  tex($('#labStatus'));
+  drawLab(); guardar();
+}
+function responderLab(box, j, silencioso){
+  const key = box.dataset.act==='labpred' ? 'pred' : 'concl';
+  if (ST.lab[key]!==null && ST.lab[key]!==undefined) return;
+  ST.lab[key] = j;
+  const opt = $$('.opt', box)[j]; const ok = opt.dataset.ok==='1';
+  $$('.opt', box).forEach(b => { b.disabled = true; if (b.dataset.ok==='1') b.classList.add('right'); else if (b===opt) b.classList.add('wrong'); else b.classList.add('dim'); });
+  const fb = $(`.fb[data-fb="${j}"]`, box); if (fb) fb.classList.add('show', ok ? 'good' : 'bad');
+  if (!silencioso) guardar();
+}
+function labLineas(pdf){
+  const r3 = (v, ok) => (v===null || v===undefined) ? 'sin responder' : (v===ok ? 'correcta' : 'incorrecta');
+  return [`Predicción: ${r3(ST.lab.pred, 1)}`, `Conclusión: ${r3(ST.lab.concl, 0)}`, `Curvas trazadas: ${ST.lab.curvas.length}`];
+}
+
+/* =====================================================================
+   PRÁCTICA
+   ===================================================================== */
+
+const MIN_NIVEL = 3;
+const NIVELES = [1,2,3];
+function okNivel(n){ return EJ.filter(e => e.nivel===n && ST.prac.ok[e.id]).length; }
+function totNivel(n){ return EJ.filter(e => e.nivel===n).length; }
+function renderNivelChips(){
+  $('#nivelChips').innerHTML = NIVELES.map(n => `<button type="button" class="chip${n===ST.prac.nivelVisto?' on':''}" data-nivel="${n}">Nivel ${n} · ${NIVEL[n]} · ${okNivel(n)} de ${totNivel(n)}</button>`).join('');
+}
+function renderEj(){
+  $('#listaEj').innerHTML = EJ.map((e,i) => `
+    <article class="ej" data-ej="${e.id}" data-nivel="${e.nivel}">
+      <div class="ej-head">
+        <div class="ej-num">Ejercicio ${i+1} <span class="lvl l${e.nivel}">Nivel ${e.nivel} · ${NIVEL[e.nivel]}</span></div>
+        <div class="ej-lab"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      </div>
+      <div class="ej-body">
+        <div class="titulo">${e.titulo}</div>
+        <div class="q">${e.enun}</div>
+        <div class="opts">${e.opts.map((o,j) => `<button type="button" class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div>
+        <div class="fb" data-fbej></div>
+        <div class="acciones">
+          <button type="button" class="btn small ghost" data-pista>Pista <span data-pn>1</span> de 4</button>
+          <button type="button" class="btn small sec" data-sol disabled>Ver explicación</button>
+          <span class="estado" data-estado>sin responder</span>
+        </div>
+        <div data-pistas></div>
+        <div class="solucion" data-solucion style="display:none">${e.sol}</div>
+      </div>
+    </article>`).join('');
+  tex($('#listaEj'));
+  filtrarNivel(ST.prac.nivelVisto);
+  actualizarProgreso();
+}
+function filtrarNivel(n){
+  if (NIVELES.indexOf(n) < 0) n = 1;
+  ST.prac.nivelVisto = n;
+  $$('#nivelChips .chip').forEach(c => c.classList.toggle('on', +c.dataset.nivel===n));
+  $$('#listaEj .ej').forEach(a => { a.style.display = (+a.dataset.nivel===n) ? '' : 'none'; });
+}
+function actualizarProgreso(){
+  const ok = Object.values(ST.prac.ok).filter(Boolean).length;
+  $('#progreso').innerHTML = `Resueltos: <b>${ok}</b> de ${EJ.length}`;
+  renderNivelChips();
+  const falta = NIVELES.filter(n => okNivel(n) < MIN_NIVEL);
+  $('#pracAviso').innerHTML = falta.length
+    ? `Para entregar: al menos ${MIN_NIVEL} ejercicios resueltos de cada nivel. Te falta: ` + falta.map(n => `nivel ${n} (${MIN_NIVEL-okNivel(n)} más)`).join(', ') + '.'
+    : '<b>Mínimo cumplido ✓</b> Los ejercicios que quedan son optativos: suman práctica.';
+}
+function responderEj(art, j, silencioso){
+  const e = EJ.find(x => x.id===art.dataset.ej); if (!e || ST.prac.ok[e.id]) return;
+  ST.prac.intentos[e.id] = (ST.prac.intentos[e.id]||0) + 1;
+  const n = ST.prac.intentos[e.id];
+  const ok = j===e.correct;
+  const fb = $('[data-fbej]', art); const est = $('[data-estado]', art);
+  $('[data-sol]', art).disabled = false;
+  const opts = $$('.opt', art);
+  if (ok){
+    ST.prac.ok[e.id] = true;
+    opts.forEach((b,k) => { b.disabled = true; b.classList.remove('wrong'); b.classList.add(k===e.correct ? 'right' : 'dim'); });
+    fb.className = 'fb show good'; fb.innerHTML = (n===1 ? '<b>Correcto.</b> ' : `<b>Correcto en el intento ${n}.</b> Bien por volver sobre el error. `) + e.fbOk;
+    est.textContent = n===1 ? 'correcto ✓' : `correcto ✓ (${n} intentos)`; est.style.color = 'var(--green)';
+  } else {
+    opts.forEach(b => b.classList.remove('wrong')); opts[j].classList.add('wrong');
+    fb.className = 'fb show bad'; fb.innerHTML = '<b>No es esa.</b> ' + e.fbNo + ' <i>Podés volver a intentar.</i>';
+    est.textContent = `revisar (${n} ${n===1?'intento':'intentos'})`; est.style.color = 'var(--rust)';
+  }
+  tex(fb); actualizarProgreso();
+  if (!silencioso) guardar();
+}
+function pista(art, silencioso){
+  const e = EJ.find(x => x.id===art.dataset.ej);
+  const cont = $('[data-pistas]', art); const n = cont.children.length;
+  if (n >= e.pistas.length) return;
+  const d = document.createElement('div'); d.className = 'pista';
+  d.innerHTML = `<div class="tt">Pista ${n+1}${n===3?' · el error típico':''}</div>${e.pistas[n]}`;
+  cont.appendChild(d); tex(d);
+  const btn = $('[data-pista]', art);
+  if (n+1 >= e.pistas.length){ btn.disabled = true; btn.textContent = 'Sin más pistas'; } else $('[data-pn]', btn).textContent = n+2;
+  ST.prac.pistas[e.id] = n+1;
+  if (!silencioso) guardar();
+}
+
+/* =====================================================================
+   CIERRE
+   ===================================================================== */
+function generarResumen(){
+  const t = ST.meta.textos.map(s => (s||'').trim());
+  const n = t.filter(Boolean).length;
+  if (n < 2){ $('#resumenAviso').textContent = 'Respondé al menos dos preguntas para generar el resumen.'; return; }
+  $('#resumenAviso').textContent = '';
+  const partes = [];
+  if (t[0]) partes.push(`<b>Entendí mejor:</b> ${esc(t[0])}`);
+  if (t[1]) partes.push(`<b>Error que puedo evitar:</b> ${esc(t[1])}`);
+  if (t[2]) partes.push(`<b>Me falta practicar:</b> ${esc(t[2])}`);
+  if (t[3]) partes.push(`<b>Estrategia que me sirvió:</b> ${esc(t[3])}`);
+  ST.meta.resumen = partes.map(p => p.replace(/<\/?b>/g,'')).join(' | ');
+  const box = $('#resumenBox'); box.innerHTML = partes.join('<br>'); box.classList.add('show');
+  guardar(); renderReporte();
+}
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* =====================================================================
+   REPORTE
+   ===================================================================== */
+
+function datosReporte(){
+  const okN = Object.values(ST.prac.ok).filter(Boolean).length;
+  const pistasN = Object.values(ST.prac.pistas).reduce((a,b)=>a+b,0);
+  const intentosN = Object.values(ST.prac.intentos).reduce((a,b)=>a+b,0);
+  const porNivel = NIVELES.map(n => ({n, ok: okNivel(n), tot: totNivel(n)}));
+  const falta = porNivel.filter(p => p.ok < MIN_NIVEL);
+  const activN = Object.keys(ST.activ.answers).length;
+  const activOk = ACTIV.filter(a => ST.activ.answers[a.id]===a.correct).length;
+  const campo = !!$('.act[data-act="labhomo"]');
+  const campoResp = campo && ST.lab.homo!==null && ST.lab.homo!==undefined;
+  const teoTot = TEO.length + (campo ? 1 : 0);
+  const teoN = Object.keys(ST.teo.answers).length + (campoResp ? 1 : 0);
+  const teoOk = TEO.filter(t => ST.teo.answers[t.id]===t.correct).length + (campoResp && ST.lab.homo===1 ? 1 : 0);
+  return {okN, pistasN, intentosN, porNivel, falta, activN, activOk, teoTot, teoN, teoOk};
+}
+const SIN_REG = 'sin registro en este dispositivo';
+function renderReporte(){
+  const d = datosReporte();
+  if (document.activeElement !== $('#repNombre')) $('#repNombre').value = ST.nombre||'';
+  if (document.activeElement !== $('#repCurso')) $('#repCurso').value = ST.curso||'';
+  $('#repGrid').innerHTML = `
+    <div class="rep-box"><div class="k">Antes de empezar</div><div class="v">${d.activN ? d.activOk+' de '+ACTIV.length : '—'}</div><div class="d">${d.activN ? d.activN+' respondidas' : SIN_REG}</div></div>
+    <div class="rep-box"><div class="k">Preguntas de la teoría</div><div class="v">${d.teoN ? d.teoOk+' de '+d.teoTot : '—'}</div><div class="d">${d.teoN ? d.teoN+' respondidas' : SIN_REG}</div></div>
+    <div class="rep-box"><div class="k">Práctica</div><div class="v">${d.okN} de ${EJ.length}</div><div class="d">${d.pistasN} pistas · ${d.intentosN} intentos</div></div>
+    <div class="rep-box"><div class="k">Mínimo para entregar</div><div class="v">${d.falta.length ? 'falta' : 'cumplido ✓'}</div><div class="d">${d.falta.length ? d.falta.map(p => 'nivel '+p.n+': '+(MIN_NIVEL-p.ok)+' más').join(' · ') : MIN_NIVEL+' o más por nivel'}</div></div>`;
+  $('#repDetalle').innerHTML = `
+    <p><b>Práctica por nivel:</b> ${d.porNivel.map(p => `Nivel ${p.n} · ${p.ok} de ${p.tot}`).join(' · ')}</p>
+    <p><b>Laboratorio:</b> ${labLineas(false).join(' · ')}${ST.lab.obs ? `<br><i>Observación:</i> ${esc(ST.lab.obs)}` : ''}</p>
+    <p><b>Cierre:</b> ${ST.meta.resumen ? esc(ST.meta.resumen) : 'sin resumen todavía (las cuatro preguntas de arriba).'}</p>`;
+}
+function latin(s){
+  return String(s).replace(/✓/g,'•').replace(/→/g,'>').replace(/★/g,'*').replace(/′/g,"'").replace(/″/g,"''").replace(/≠/g,'=/=').replace(/∞/g,'inf').replace(/−/g,'-').replace(/ /g,' ').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,'').replace(/[^\x00-\xFF]/g,'?');
+}
+function descargarPdf(){
+  ST.nombre = $('#repNombre').value.trim(); ST.curso = $('#repCurso').value.trim(); guardar();
+  const av = $('#pdfAviso');
+  if (!ST.nombre){ av.textContent = 'Escribí tu nombre antes de descargar.'; return; }
+  const J = window.jspdf && window.jspdf.jsPDF;
+  if (!J){ av.textContent = 'No se pudo cargar el generador de PDF (sin conexión). Se abre el diálogo de impresión: elegí "Guardar como PDF".'; setTimeout(() => window.print(), 300); return; }
+  av.textContent = '';
+  const d = datosReporte();
+  const doc = new J({unit:'mm', format:'a4'});
+  const M = 18, W = 210 - 2*M; let y = 20;
+  const line = (txt, size, style, color) => { doc.setFontSize(size||11); doc.setFont('helvetica', style||'normal'); if (color) doc.setTextColor(...color); else doc.setTextColor(32,32,28); const ls = doc.splitTextToSize(latin(txt), W); ls.forEach(l => { if (y > 280){ doc.addPage(); y = 20; } doc.text(l, M, y); y += (size||11)*0.5; }); y += 1.5; };
+  doc.setFillColor(15,34,68); doc.rect(0,0,210,26,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text('Ecuaciones diferenciales · Etapa 1', M, 12);
+  doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text('Escuela Philips · Matemática · 5.º año · laboratoriobest-IA', M, 19);
+  y = 36;
+  line(`${ST.nombre}${ST.curso ? ' - ' + ST.curso : ''}`, 13, 'bold');
+  line(`Fecha: ${new Date().toLocaleDateString('es-AR')}`, 10, 'normal', [95,91,83]);
+  y += 3;
+  line('Práctica', 12, 'bold', [43,90,147]);
+  line(`Resueltos: ${d.okN} de ${EJ.length} - ${d.pistasN} pistas pedidas - ${d.intentosN} intentos en total`);
+  line('   ' + d.porNivel.map(p => `Nivel ${p.n} (${NIVEL[p.n]}): ${p.ok} de ${p.tot}`).join(' - '), 10);
+  line(`Mínimo para entregar (${MIN_NIVEL} por nivel): ${d.falta.length ? 'no cumplido - falta ' + d.falta.map(p => 'nivel ' + p.n + ' (' + (MIN_NIVEL-p.ok) + ' más)').join(', ') : 'cumplido'}`, 11, 'bold');
+  y += 3;
+  line('Recorrido de la clase', 12, 'bold', [110,78,170]);
+  line(`Antes de empezar: ${d.activN ? d.activOk + ' de ' + ACTIV.length : SIN_REG}`);
+  line(`Preguntas de la teoría: ${d.teoN ? d.teoOk + ' de ' + d.teoTot + ' (' + d.teoN + ' respondidas)' : SIN_REG}`);
+  line('Laboratorio: ' + labLineas(true).join(' - '));
+  if (ST.lab.obs) line(`Observación: ${ST.lab.obs}`);
+  y += 3;
+  line('Cierre', 12, 'bold', [199,122,64]);
+  const T = ['Qué entendí mejor', 'Qué error puedo evitar', 'Qué me falta practicar', 'Qué estrategia me sirvió'];
+  let alguna = false;
+  ST.meta.textos.forEach((t,i) => { if (t && t.trim()){ alguna = true; line(`${T[i]}: ${t.trim()}`); } });
+  if (!alguna) line('Sin respuestas de cierre.', 10, 'italic', [95,91,83]);
+  y += 3;
+  line('Ejercicios de la práctica', 12, 'bold', [43,90,147]);
+  EJ.forEach((e,i) => { const st = ST.prac.ok[e.id] ? `correcto (${ST.prac.intentos[e.id]||1} int.)` : (ST.prac.intentos[e.id] ? `sin resolver (${ST.prac.intentos[e.id]} int.)` : 'sin intentar'); line(`${i+1}. ${e.titulo} [N${e.nivel}] - ${st}${ST.prac.pistas[e.id] ? ' - ' + ST.prac.pistas[e.id] + ' pistas' : ''}`, 9.5); });
+  doc.setFontSize(8); doc.setTextColor(120,120,120); doc.text('"La matemática no exige genios, exige constancia." · laboratoriobest-IA · Prof. Ariel Cardozo', M, 292);
+  const nombreArch = 'ED-etapa1-' + ST.nombre.replace(/\s+/g,'-').replace(/[^\w\-]/g,'') + '.pdf';
+  doc.save(nombreArch);
+  av.textContent = 'PDF generado: ' + nombreArch;
+}
+
+/* =====================================================================
+   RESTAURAR
+   ===================================================================== */
+
+function restaurar(){
+  Object.entries(ST.activ.answers).forEach(([id,j]) => { const box = $(`#activList [data-q="${id}"]`); if (box){ delete ST.activ.answers[id]; responderActiv(box, j, true); } });
+  Object.entries(ST.teo.answers).forEach(([id,j]) => { const box = $(`[data-teo] [data-q="${id}"]`); if (box){ delete ST.teo.answers[id]; responderTeo(box, j, true); } });
+  ['pred','concl','homo'].forEach(key => {
+    const box = $(`.act[data-act="${{pred:'labpred', concl:'labconc', homo:'labhomo'}[key]}"]`);
+    if (box && ST.lab[key]!==null && ST.lab[key]!==undefined){ const v = ST.lab[key]; ST.lab[key] = null; responderLab(box, v, true); }
+  });
+  $('#labObs').value = ST.lab.obs || '';
+  EJ.forEach(e => {
+    const art = $(`.ej[data-ej="${e.id}"]`); if (!art) return;
+    const np = ST.prac.pistas[e.id]||0; for (let i=0; i<np; i++) pista(art, true);
+    if (ST.prac.ok[e.id]){ const n = ST.prac.intentos[e.id]||1; ST.prac.ok[e.id] = false; ST.prac.intentos[e.id] = n-1; responderEj(art, e.correct, true); }
+    else if (ST.prac.intentos[e.id]){ $('[data-sol]', art).disabled = false; const est = $('[data-estado]', art); est.textContent = `revisar (${ST.prac.intentos[e.id]} intentos)`; est.style.color = 'var(--rust)'; }
+  });
+  $$('textarea[data-meta]').forEach(t => { t.value = ST.meta.textos[+t.dataset.meta] || ''; });
+  if (ST.meta.resumen) generarResumen();
+  ir(Math.min(ST.stage||0, NP-1), true);
+}
+
+/* =====================================================================
+   EVENTOS
+   ===================================================================== */
+document.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]'); if (go){ ir(go.dataset.go); return; }
+  const pasoBtn = e.target.closest('.paso > button');
+  if (pasoBtn){ const p = pasoBtn.parentElement; p.classList.toggle('open'); if (p.classList.contains('open')){ const rc = p.getBoundingClientRect(); if (rc.top < 100) p.scrollIntoView({block:'start'}); } return; }
+  const plg = e.target.closest('.plegado > button'); if (plg){ plg.parentElement.classList.toggle('open'); return; }
+  const opt = e.target.closest('.opt');
+  if (opt && !opt.disabled){
+    const j = +opt.dataset.j;
+    const box = opt.closest('[data-q]');
+    if (box){ if (box.closest('#activList')) responderActiv(box, j); else if (box.closest('[data-teo]')) responderTeo(box, j); return; }
+    const lab = opt.closest('.act[data-act]'); if (lab){ responderLab(lab, +opt.dataset.ans); return; }
+    const art = opt.closest('.ej'); if (art){ responderEj(art, j); return; }
+  }
+  const art = e.target.closest('.ej');
+  if (art){
+    if (e.target.closest('[data-pista]')) { pista(art); return; }
+    const sb = e.target.closest('[data-sol]');
+    if (sb && !sb.disabled){ const s = $('[data-solucion]', art); const vis = s.style.display!=='none'; s.style.display = vis ? 'none' : ''; sb.textContent = vis ? 'Ver explicación' : 'Ocultar explicación'; if (!vis) tex(s); return; }
+  }
+  const nv = e.target.closest('[data-nivel]'); if (nv && nv.classList.contains('chip')){ filtrarNivel(+nv.dataset.nivel); guardar(); return; }
+  const ed = e.target.closest('#labEd [data-ed]'); if (ed){ setLabEd(+ed.dataset.ed); return; }
+  if (e.target.closest('#labClear')){ ST.lab.curvas = []; drawLab(); $('#labStatus').innerHTML = 'Curvas borradas. Hacé clic para trazar otras.'; guardar(); return; }
+  if (e.target.id==='labCanvas'){ labClick(e); return; }
+  if (e.target.closest('#btnResumen')){ generarResumen(); return; }
+  if (e.target.closest('#btnPdf')){ descargarPdf(); return; }
+  if (e.target.closest('#fab')){ abrirModal('modalForm'); return; }
+  if (e.target.closest('#btnReset')){ abrirModal('modalReset'); return; }
+  if (e.target.closest('#doReset')){ try { localStorage.removeItem(STORE_KEY); } catch(_){} location.reload(); return; }
+  if (e.target.closest('[data-cerrar]')){ cerrarModales(); return; }
+  if (e.target.classList.contains('modal-bg')){ cerrarModales(); return; }
+});
+document.addEventListener('input', e => {
+  if (e.target.tagName==='TEXTAREA'){ e.target.style.height = 'auto'; e.target.style.height = (e.target.scrollHeight + 2) + 'px'; }
+  if (e.target.id==='labObs'){ ST.lab.obs = e.target.value; guardar(); }
+  if (e.target.matches('textarea[data-meta]')){ ST.meta.textos[+e.target.dataset.meta] = e.target.value; guardar(); }
+  if (e.target.id==='repNombre'){ ST.nombre = e.target.value; guardar(); }
+  if (e.target.id==='repCurso'){ ST.curso = e.target.value; guardar(); }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape'){ cerrarModales(); return; }
+  if ((e.key==='t' || e.key==='T') && !e.ctrlKey && !e.metaKey && !e.altKey && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){ const m = $('#modalForm'); if (m.classList.contains('show')) cerrarModales(); else abrirModal('modalForm'); }
+});
+function abrirModal(id){ cerrarModales(); const m = $('#'+id); m.classList.add('show'); tex(m); }
+function cerrarModales(){ $$('.modal-bg').forEach(m => m.classList.remove('show')); }
+
+/* =====================================================================
+   RESPALDO SIN KATEX
+   ===================================================================== */
+const SYM = {infty:'∞', to:'→', le:'≤', ge:'≥', ne:'≠', neq:'≠', Rightarrow:'⇒', in:'∈', forall:'∀', pm:'±', cdot:'·', cdots:'⋯', ldots:'…', alpha:'α', beta:'β', pi:'π', approx:'≈', times:'×', Omega:'Ω', circ:'°', quad:'\u2003', qquad:'\u2003\u2003', ',':' ', ';':' ', '!':'', ' ':' ', 'Big':'', 'big':'', displaystyle:'', limits:'', mathop:'', left:'', right:'', int:'∫'};
+function mfTok(s){
+  const t = []; let i = 0;
+  while (i < s.length){
+    const ch = s[i];
+    if (ch === '\\'){
+      let j = i+1;
+      if (/[a-zA-Z]/.test(s[j]||'')){ while (j < s.length && /[a-zA-Z]/.test(s[j])) j++; t.push({c: s.slice(i+1, j)}); i = j; }
+      else { t.push({c: s[j]||''}); i = j+1; }
+    } else if (ch === '{'){
+      let d = 1, j = i+1; while (j < s.length && d > 0){ if (s[j]==='{') d++; else if (s[j]==='}') d--; j++; }
+      t.push({g: s.slice(i+1, j-1)}); i = j;
+    } else { t.push({ch}); i++; }
+  }
+  return t;
+}
+function mfArg(t, k){ const x = t[k]; if (!x) return ['', k]; if (x.g!==undefined) return [mfRender(x.g), k+1]; if (x.c!==undefined) return [mfRender('\\'+x.c), k+1]; return [mfRender(x.ch), k+1]; }
+function mfScripts(t, k){
+  let sup = '', sub = '';
+  for (let q=0; q<2; q++){
+    if (t[k] && t[k].ch === '^'){ [sup, k] = mfArg(t, k+1); }
+    else if (t[k] && t[k].ch === '_'){ [sub, k] = mfArg(t, k+1); }
+  }
+  return [sup, sub, k];
+}
+function mfRender(src){
+  const t = mfTok(src); let out = ''; let k = 0;
+  while (k < t.length){
+    const x = t[k];
+    if (x.g!==undefined){ out += mfRender(x.g); k++; continue; }
+    if (x.ch!==undefined){
+      const ch = x.ch;
+      if (ch==='^' || ch==='_'){ const [a, k2] = mfArg(t, k+1); out += ch==='^' ? `<sup>${a}</sup>` : `<sub>${a}</sub>`; k = k2; continue; }
+      if (ch==='-') out += '−';
+      else if (/[a-zA-Z]/.test(ch)) out += `<span class="v">${ch}</span>`;
+      else if (ch==='*' ) out += '·';
+      else if (ch==="'") out += '′';
+      else out += ch;
+      k++; continue;
+    }
+    const c = x.c; k++;
+    if (c==='dfrac' || c==='frac' || c==='tfrac'){ let a, b; [a, k] = mfArg(t, k); [b, k] = mfArg(t, k); out += `<span class="frac"><span>${a}</span><span>${b}</span></span>`; continue; }
+    if (c==='sqrt'){
+      let idx = '';
+      if (t[k] && t[k].ch==='['){ let j = k+1, s = ''; while (t[j] && t[j].ch!==']'){ s += t[j].ch!==undefined ? t[j].ch : (t[j].g!==undefined ? t[j].g : '\\'+t[j].c); j++; } idx = mfRender(s); k = j+1; }
+      let a; [a, k] = mfArg(t, k);
+      out += `${idx ? `<sup>${idx}</sup>` : ''}√<span style="border-top:1px solid currentColor">${a}</span>`; continue;
+    }
+    if (c==='sum'){ const [sup, sub, k2] = mfScripts(t, k); k = k2; out += `<span class="lim"><small>${sup}</small><span class="big">Σ</span><small>${sub}</small></span>`; continue; }
+    if (c==='int'){ const [sup, sub, k2] = mfScripts(t, k); k = k2; out += `<span class="big">∫</span>${sub?`<sub>${sub}</sub>`:''}${sup?`<sup>${sup}</sup>`:''}`; continue; }
+    if (c==='lim'){ const [sup, sub, k2] = mfScripts(t, k); k = k2; out += `<span class="lim">lím<small>${sub}</small></span>`; continue; }
+    if (c==='text' || c==='mathrm' || c==='operatorname'){ const g = t[k]; k++; out += g && g.g!==undefined ? g.g : ''; continue; }
+    if (c==='mathbb'){ const g = t[k]; k++; out += (g && g.g==='R') ? 'ℝ' : (g ? g.g : ''); continue; }
+    if (c==='left' || c==='right'){ if (t[k] && t[k].ch!==undefined){ out += t[k].ch==='.' ? '' : t[k].ch; k++; } else if (t[k] && t[k].c){ out += SYM[t[k].c] || ''; k++; } continue; }
+    if (c==='Big' || c==='big' || c==='bigl' || c==='bigr'){ continue; }
+    if (SYM[c]!==undefined){ out += SYM[c]; continue; }
+    out += c;
+  }
+  return out;
+}
+function mfallRender(root){
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement.closest('script,style,.mfall,textarea') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+  const nodes = []; let n; while ((n = walker.nextNode())) if (/\\[\(\[]/.test(n.nodeValue)) nodes.push(n);
+  nodes.forEach(node => {
+    const html = node.nodeValue
+      .replace(/\\\[([\s\S]*?)\\\]/g, (_, s) => `<span class="mfall disp">${mfRender(s)}</span>`)
+      .replace(/\\\(([\s\S]*?)\\\)/g, (_, s) => `<span class="mfall">${mfRender(s)}</span>`);
+    const span = document.createElement('span'); span.innerHTML = html;
+    node.parentNode.replaceChild(span, node);
+  });
+}
+
+/* =====================================================================
+   AUTOTEST (?test)
+   ===================================================================== */
+function correrTests(){
+  const T = []; const ok = (nombre, cond, det) => T.push({nombre, ok: !!cond, det});
+  ok('recorrido: 6 pantallas', $$('main > section').length===6 && PANT.length===6);
+  ok('TEO: fb por opción, correct válido, con su lugar en la teoría', TEO.length>=3 && TEO.every(t => t.opts.length===4 && t.fb.length===4 && t.correct>=0 && t.correct<4 && $(`#s2 [data-teo="${t.id}"] .opt`)));
+  ok('TEO: una pregunta al cierre de cada uno de los 4 bloques', $$('#s2 [data-teo]').length + $$('#s2 .act[data-act="labhomo"]').length===4 && $$('#s2 h3').length===4);
+  ok('teoría: cada bloque con su aviso de errores', $$('#s2 .warn').length===4);
+  ok('ACTIV: 4 ítems, fb por opción', ACTIV.length===4 && ACTIV.every(a => a.opts.length===3 && a.fb.length===3 && a.correct>=0 && a.correct<3));
+  ok('EJ: 15 ejercicios, 5 por nivel, en orden de nivel', EJ.length===15 && NIVELES.every(n => totNivel(n)===5) && EJ.every((e,i) => e.nivel===Math.floor(i/5)+1));
+  ok('EJ: mínimo de entrega 3 por nivel', MIN_NIVEL===3);
+  ok('EJ: ids únicos', new Set(EJ.map(e=>e.id)).size===EJ.length);
+  ok('EJ: 4 opciones, 4 pistas, sol, correct válido', EJ.every(e => e.opts.length===4 && e.pistas.length===4 && e.sol && e.correct>=0 && e.correct<4 && e.fbOk && e.fbNo));
+  const pos = [0,1,2,3].map(k => EJ.filter(e=>e.correct===k).length);
+  ok('EJ: la correcta varía de posición (cada posición ≥ 3)', pos.every(p => p>=3), pos.join('/'));
+  ok('EJ: tipos variados', EJ.some(e=>e.tipo==='conceptual') && EJ.some(e=>e.tipo==='procedimental') && EJ.some(e=>e.tipo==='analisis'));
+  // laboratorio: RK4 contra la solución exacta
+  const err = (i, x0, y0, exact) => { const p = rk4(LAB[i], x0, y0, 1); const q = p[Math.min(p.length-1, 150)]; return Math.abs(q[1] - exact(q[0])); };
+  ok('LAB y′=2x: RK4 ≈ x²+C', err(0, 0, 1, x => x*x+1) < 1e-6);
+  ok('LAB y′=y: RK4 ≈ Ce^x', err(1, 0, 1, x => Math.exp(x)) < 1e-6);
+  ok('LAB y′=−2y: RK4 ≈ Ce^{−2x}', err(2, 0, 2, x => 2*Math.exp(-2*x)) < 1e-6);
+  ok('LAB y′=−x/y: RK4 sobre la circunferencia', (() => { const p = rk4(LAB[3], 0, 2, 1); return p.slice(0,200).every(q => Math.abs(q[0]*q[0]+q[1]*q[1]-4) < 1e-4); })());
+  ok('LAB y′=x/y: RK4 sobre la hipérbola', (() => { const p = rk4(LAB[4], 0, 2, 1); return p.slice(0,200).every(q => Math.abs(q[1]*q[1]-q[0]*q[0]-4) < 1e-4); })());
+  ok('LAB constantes: C(0;1) en y′=y es 1; K(0;2) en −x/y es 4', Math.abs(LAB[1].cte(0,1)-1)<1e-12 && Math.abs(LAB[3].cte(0,2)-4)<1e-12);
+  ok('LAB y′=2√y: RK4 ≈ (x+1)² hacia la derecha', err(5, 0, 1, x => (x+1)*(x+1)) < 1e-6);
+  ok('LAB y′=2√y: hacia la izquierda queda apoyada en y = 0', (() => { const p = rk4(LAB[5], 0, 1, -1); const q = p[p.length-1]; return q[0] < -3.9 && Math.abs(q[1]) < 1e-3; })());
+  ok('LAB y′=2√y: no definida para y < 0; C(0;1) = 1', !!LAB[5].veto(0,-1) && !LAB[5].veto(0,1) && Math.abs(LAB[5].cte(0,1) - 1) < 1e-12);
+  ok('LAB: seis ecuaciones, con aviso en las que dividen por y', LAB.length===6 && !!LAB[3].veto(1,0.1) && !!LAB[4].veto(1,-0.1) && !LAB[3].veto(1,1));
+  ok('e15: 2 ln 2 ≈ 1,386', Math.abs(2*Math.LN2 - 1.386) < 1e-3);
+  ok('sin .katex-error', $$('.katex-error').length===0);
+  ok('chrome: nombre del profesor 2 veces, en .lab-sub', $$('.lab-sub').length===2 && $$('.lab-sub').every(e => /Ariel L\. Cardozo Delgado/.test(e.textContent)));
+  window.__TESTS__ = T;
+  const panel = document.createElement('div'); panel.id = 'testPanel';
+  const nOk = T.filter(t=>t.ok).length;
+  panel.innerHTML = `<div><b>Autotest: ${nOk} / ${T.length}</b></div>` + T.map(t => `<div class="${t.ok?'ok':'fail'}">${t.ok?'✓':'✗'} ${t.nombre}${t.det?' · '+t.det:''}</div>`).join('');
+  document.body.appendChild(panel);
+}
+
+/* =====================================================================
+   ARRANQUE
+   ===================================================================== */
+function start(){
+  if (!window.renderMathInElement){ window.__katexFailed = true; window.renderMathInElement = mfallRender; }
+  cargar();
+  renderPills();
+  renderActiv(); renderTeo(); renderNivelChips(); renderEj(); initLab();
+  tex(document.body);
+  restaurar();
+  drawLab();
+  if (/[?&]test\b/.test(location.search)) correrTests();
+}
+if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else setTimeout(start, 0);
+})();
+</script>
+</body>
+</html>
